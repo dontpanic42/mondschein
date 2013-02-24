@@ -44,6 +44,10 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
+function isImgurLink(str) {
+	return (str.indexOf('imgur') == -1)? false : true;
+}
+
 function isDirectLink(str) {
 	var suffixes =[
 		'.jpg',
@@ -102,7 +106,9 @@ exports.getSyncLinkInfo = function(link) {
 		result.image = (isDirectLink(link))?
 			link :
 			link + '.jpg';
-		result.thumb = createThumbnailLink(result.image);
+		result.thumb = isImgurLink(link)?
+							createThumbnailLink(result.image) :
+							result.image;
 		return result;
 	}
 };
