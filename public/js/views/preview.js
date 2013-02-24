@@ -7,6 +7,7 @@ define(['backbone', 'handlebars', 'views/image', 'views/albumpreview', 'text!tem
 		template: Handlebars.compile(Template),
 
 		initialize: function(options) {
+			this.image = null;
 			this.render();
 		},
 
@@ -20,18 +21,11 @@ define(['backbone', 'handlebars', 'views/image', 'views/albumpreview', 'text!tem
 				// 	el: self.$('.image-container').get(0)
 				// });
 			} else {
-				var img = new ImageView({
+				this.image = new ImageView({
 					image: self.model.get('thumb'),
 					el: self.$('.image-container').get(0)
 				});
 			}
-
-			// var t = this.$el.find('.image-info');
-			// this.$el.hover(function() {
-			// 	t.toggleClass('opacity-full');
-			// }, function() {
-			// 	t.toggleClass('opacity-full');
-			// });
 		},
 
 		getImageTitle: function() {
@@ -42,7 +36,13 @@ define(['backbone', 'handlebars', 'views/image', 'views/albumpreview', 'text!tem
 			return (this.model.get('isGallery'))?
 				this.model.get('link') :
 				this.model.get('image');
+		},
+
+		remove: function() {
+			if(this.image) this.image.remove();
+			Backbone.View.prototype.remove.call(this);
 		}
+
 	});
 
 	return exports;

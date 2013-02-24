@@ -25,7 +25,70 @@ define([], function() {
 		}
 	});
 
-	require(['backbone', 'views/application'], function(Backbone, App) {
-		var main_view = new App();
+	require(['jquery', 'backbone', 'views/application'], function($, Backbone, App) {
+		// var main_view = new App();
+		var Main = Backbone.View.extend({
+			el : $('body'),
+
+			router: null,
+			currentApp: null,
+
+			events: {
+				'click #input-subreddit-btn': 'onChangeSubreddit'
+			},
+
+			initialize: function() {
+				this.initializeRouting();
+			},
+
+			initializeRouting: function() {
+				var self = this;
+
+				var AppRouter = Backbone.Router.extend({
+					routes: {
+						'sub/:subreddit(/)' : 'subredditRoute',
+						'*actions': 'defaultRoute',
+					},
+
+					defaultRoute : function() {
+						if(self.currentApp) self.currentApp.remove();
+
+						self.currentApp = new App({
+							subreddit: 'pics'
+						});
+
+						$('body').append(self.currentApp.$el);
+					},
+
+					subredditRoute: function(subreddit) {
+						if(self.currentApp) self.currentApp.remove();
+
+						self.currentApp = new App({
+							subreddit: subreddit
+						});
+						
+						$('body').append(self.currentApp.$el);
+					}
+
+				});
+
+				this.router = new AppRouter();
+
+				Backbone.history.start();
+			},
+
+			onChangeSubreddit: function() {
+				var sub = $('#input-subreddit').val();
+				sub = sub.replace(' ', '+');
+				sub = sub.replace(',', '');
+				
+				sub = sub.replace('/r/', '');
+				sub = sub.replace('r/', '');
+
+				this.router.subredditRoute(sub);
+			}
+		});
+
+		var main = new Main();
 	});
 });

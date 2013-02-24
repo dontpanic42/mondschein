@@ -10,13 +10,16 @@
 			padding: 0;
 			font-family: 'Open Sans', sans-serif;
 			font-weight: 300;
+			font-size: 16px;
+			color: #000;
 		}
 
-		body, html {
-			background-color: rgb(254,250,246);
+		body {
+			background-color: rgb(234, 234, 234);
 			width: 100%;
 			height: 100%;
 			text-align: center;
+			margin-top: 46px;
 		}
 
 		.list-image {
@@ -74,10 +77,107 @@
 		.list-image .image-info.opacity-full {
 			opacity: 1.0;
 		}
+
+		/** header stuff **/
+
+
+		#header {
+			height: 40px;
+			line-height: 40px;
+			border-bottom: 1px solid rgb(214, 215, 216);
+
+			background-image: linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+			background-image: -o-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+			background-image: -moz-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+			background-image: -webkit-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+			background-image: -ms-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+
+			box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
+
+			position: fixed;
+			top: 0;
+			width: 100%;
+			z-index: 1000;
+		}
+
+		#header .brand {
+			display: inline-block;
+			position: absolute;
+			left: 0;
+			width: 100px;
+			font-weight: 600;
+			text-shadow: 1px 1px 1px #fff;
+			color: rgb(128, 128, 128);
+			margin-left: 20px;
+		}
+
+
+
+		.btn {
+			display: inline-block;
+			height: 32px;
+			background-color: rgb(232, 232, 232);
+			border: 1px solid rgb(214, 215, 216);
+			vertical-align: middle;
+			line-height: 32px;
+			padding: 0 10px 0 10px;
+			margin: -1px;
+
+			text-decoration: none;
+
+			background-image: linear-gradient(bottom, rgb(241,241,241) 0%, rgb(255,255,255) 100%);
+			background-image: -o-linear-gradient(bottom, rgb(241,241,241) 0%, rgb(255,255,255) 100%);
+			background-image: -moz-linear-gradient(bottom, rgb(241,241,241) 0%, rgb(255,255,255) 100%);
+			background-image: -webkit-linear-gradient(bottom, rgb(241,241,241) 0%, rgb(255,255,255) 100%);
+			background-image: -ms-linear-gradient(bottom, rgb(241,241,241) 0%, rgb(255,255,255) 100%);
+
+		}
+
+		.btn-active, .btn:active:not(input) {
+			border: 1px solid rgb(35, 115, 165);
+			color: #fff;
+			background-image: linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			background-image: -o-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			background-image: -moz-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			background-image: -webkit-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			background-image: -ms-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			box-shadow: inset 0px 1px 1px rgb(134, 179, 214);
+
+			text-decoration: none;
+		}		
+
+		.btnset {
+			height: 40px;
+			line-height: 40px;
+			display: inline-block;
+		}
+
+		.btnset input.btn {
+			width: 200px;
+			font-size: 16px;
+		}
+
+		#header .btn:first-child {
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+		}
+
+		#header .btn:last-child {
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+
 	</style>
 </head>
 <body>
-
+	<div id='header'>
+		<div class='brand'>
+			Mondschein
+		</div>
+		<div class='btnset'>
+			<input type='text' id='input-subreddit' class='btn' placeholder="Type a subreddit..."><a href='#' id='input-subreddit-btn' class='btn'>Go!</a>
+		</div>
+	</div>
 	<script data-main="js/mondschein.js" src="js/libs/require/require.js"></script>
 </body>
 </html>

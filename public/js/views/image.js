@@ -2,8 +2,6 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 	"use strict";
 	var exports = Backbone.View.extend({
 
-		image: null,
-
 		errorImages: [
 			'img/notfound-blue.png',
 			'img/notfound-green.png',
@@ -65,12 +63,6 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 				left: -( (iw - si) / 2)
 			});
 
-		},
-
-		removeSpinner: function() {
-			this.$el.css({
-				backgroundImage: 'none'
-			});
 		}
 	});
 

@@ -2,20 +2,19 @@ define(['jquery', 'underscore', 'backbone', 'collections/preview', 'views/previe
 	"use strict";
 	var exports = Backbone.View.extend({
 
-		el: $('body'),
-
-		pages : [],
-
-		views: [],
-
-		subreddit: (window.location.hash)? 
-						window.location.hash.substring(1) : 
-						'pics',
+		tagName: 'div',
+		className: 'wall',
 
 		autoload: false,
 		autoloadOffset: 600,
 
-		initialize : function() {
+		initialize : function(options) {
+			this.views = [];
+			this.pages = [];
+			this.autoLoadHandlerInstance = null,
+			this.subreddit = options.subreddit;
+
+			console.log('initializing', this.subreddit, this.pages.length);
 			this.render();
 			this.installAutoloadHandler();
 		},
@@ -24,10 +23,9 @@ define(['jquery', 'underscore', 'backbone', 'collections/preview', 'views/previe
 			var self = this;
 
 			this.autoload = false;
-			if(this.pages.length)
-				var after = _.last(this.pages).last().get('postid');
+			var after = this.getLatestEntry();
 
-			console.log(this.subreddit);
+			console.log('loading', this.subreddit);
 
 			var url = this.getUrl({
 				subreddit: self.subreddit,
@@ -40,6 +38,16 @@ define(['jquery', 'underscore', 'backbone', 'collections/preview', 'views/previe
 				url: url,
 				success: self.createPageFinished.bind(self)
 			});
+		},
+
+		getLatestEntry: function() {
+			if(this.pages.length) {
+				var lastModel = _.last(this.pages).last();
+				if(lastModel)
+					var after = lastModel.get('postid');
+			}
+
+			return after;
 		},
 
 		createPageFinished: function() {
@@ -65,8 +73,6 @@ define(['jquery', 'underscore', 'backbone', 'collections/preview', 'views/previe
 				after: null
 			}, options);
 
-			console.log(options.after);
-
 			var url = (options.after)?
 				'reddit/:subreddit/' + options.after : 
 				'reddit/:subreddit';
@@ -79,15 +85,24 @@ define(['jquery', 'underscore', 'backbone', 'collections/preview', 'views/previe
 		},
 
 		installAutoloadHandler: function() {
-			$(document).on('scroll', this.autoLoadHandler.bind(this));
+			this.autoLoadHandlerInstance = this.autoLoadHandler.bind(this);
+			$(document).bind('scroll', this.autoLoadHandlerInstance);
 		},
 
 		autoLoadHandler: function() {
 			var offset = $(document).scrollTop() - ($(document).height() - $(window).height());
-			console.log(Math.abs(offset));
 			if(Math.abs(offset) < this.autoloadOffset && this.autoload) {
 				this.createPage();
 			}
+		},
+
+		remove: function() {
+			$(document).unbind('scroll', this.autoLoadHandlerInstance);
+			Backbone.View.prototype.remove.call(this);
+
+			_.each(this.views, function(view) {
+				view.remove();
+			});
 		}
 	});
 

@@ -19,9 +19,9 @@ function redditRequest(uri, callback) {
 	 	});
 
 	 	response.on('end', function() {
-	 		console.log('-> http end');
+	 		// console.log('-> http end');
 	 		try {
-	 			console.log('calling try');
+	 			// console.log('calling try');
 	 			callback(response.statusCode, response.headers, JSON.parse(data));
 	 		} catch(e) {
 	 			console.log(e);
@@ -40,10 +40,10 @@ function getSubredditJson(subreddits, callback, after, mode) {
 		uri += '&after=' + after;
 	}
 
-	console.log(uri);
+	// console.log(uri);
 
 	redditRequest(uri, function(status, headers, body) {
-		console.log('reddit status', status);
+		// console.log('reddit status', status);
 		if(status !== 200) body = {};
 		callback(body);
 	});
