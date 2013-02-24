@@ -35,7 +35,9 @@ define([], function() {
 
 			events: {
 				'click #input-subreddit-btn': 'onChangeSubreddit',
-				'keyup #input-subreddit': 'onKeydownSubreddit'
+				'keyup #input-subreddit': 'onKeydownSubreddit',
+				'focus #input-subreddit': 'onFocusSubreddit',
+				'blur #input-subreddit': 'onBlurSubreddit'
 			},
 
 			initialize: function() {
@@ -92,6 +94,14 @@ define([], function() {
 			onKeydownSubreddit: function(e) {
 				if(e.keyCode == 13)
 					this.onChangeSubreddit();
+			},
+
+			onFocusSubreddit: function(e) {
+				$('#input-subreddit').val("");
+			},
+
+			onBlurSubreddit: function(e) {
+				$('#input-subreddit').val(this.currentApp.subreddit);
 			}
 		});
 
