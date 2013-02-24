@@ -34,7 +34,8 @@ define([], function() {
 			currentApp: null,
 
 			events: {
-				'click #input-subreddit-btn': 'onChangeSubreddit'
+				'click #input-subreddit-btn': 'onChangeSubreddit',
+				'keyup #input-subreddit': 'onKeydownSubreddit'
 			},
 
 			initialize: function() {
@@ -86,6 +87,11 @@ define([], function() {
 				sub = sub.replace('r/', '');
 
 				this.router.subredditRoute(sub);
+			},
+
+			onKeydownSubreddit: function(e) {
+				if(e.keyCode == 13)
+					this.onChangeSubreddit();
 			}
 		});
 
