@@ -41,4 +41,4 @@ app.get('/imgur/:albumid', function(req, res, next) {
 	});
 });
 
-app.listen(8000);
+app.listen(80);

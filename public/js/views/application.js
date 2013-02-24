@@ -10,7 +10,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/preview', 'views/previe
 
 		subreddit: (window.location.hash)? 
 						window.location.hash.substring(1) : 
-						'gonewild',
+						'pics',
 
 		autoload: false,
 		autoloadOffset: 600,
