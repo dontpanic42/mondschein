@@ -19,7 +19,6 @@ function imgurRequest(uri, callback) {
 		}
 	};
 
-	console.log(options.host + options.path)
 
 	http.get(options, function(response) {
 		var data = '';
@@ -29,11 +28,9 @@ function imgurRequest(uri, callback) {
 
 	 	response.on('end', function() {
 	 		try {
-	 			console.log(data);
 	 			callback(response.statusCode, response.headers, JSON.parse(data));
 	 		} catch(e) {
 	 			console.log(e);
-	 			console.log(data);
 	 			callback(response.statusCode, response.headers, {});
 	 		}
 	 	})
@@ -125,6 +122,12 @@ exports.getAlbumImages = function(albumId, callback) {
 	imgurRequest(endpoints.albumInfo.replace(':id', albumId), 
 		function(status, headers, body) {
 		if(status !== 200) body = {};
+
+		if(!body.data
+		|| !body.data.images) {
+			callback([]);
+			return;
+		}
 
 	 	var ar = body.data.images;
 		if(ar.length) {

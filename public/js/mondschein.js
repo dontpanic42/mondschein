@@ -1,110 +1,111 @@
 define([], function() {
-	require.config({
-		baseUrl : './js/',
-		paths: {
-			jquery : 'libs/jquery/jquery',
-			handlebars : 'libs/handlebars/handlebars',
-			underscore : 'libs/underscore/underscore',
-			backbone : 'libs/backbone/backbone',
-			text : 'libs/require/text'
-		},
+    'use strict';
+    require.config({
+        baseUrl: './js/',
+        paths: {
+            jquery: 'libs/jquery/jquery',
+            handlebars: 'libs/handlebars/handlebars',
+            underscore: 'libs/underscore/underscore',
+            backbone: 'libs/backbone/backbone',
+            text: 'libs/require/text'
+        },
 
-		shim : {
-			'underscore' : {
-				exports: '_'
-			},
+        shim: {
+            'underscore' : {
+                exports: '_'
+            },
 
-			'backbone' : {
-				deps : ['jquery', 'underscore'],
-				exports : 'Backbone'
-			},
+            'backbone' : {
+                deps: ['jquery', 'underscore'],
+                exports: 'Backbone'
+            },
 
-			'handlebars' : {
-				exports : 'Handlebars'
-			}
-		}
-	});
+            'handlebars' : {
+                exports: 'Handlebars'
+            }
+        }
+    });
 
-	require(['jquery', 'backbone', 'views/application'], function($, Backbone, App) {
-		// var main_view = new App();
-		var Main = Backbone.View.extend({
-			el : $('body'),
+    require(['jquery', 'backbone', 'views/application'],
+        function($, Backbone, App) {
+        var Main = Backbone.View.extend({
+            el: $('body'),
 
-			router: null,
-			currentApp: null,
+            router: null,
+            currentApp: null,
 
-			events: {
-				'click #input-subreddit-btn': 'onChangeSubreddit',
-				'keyup #input-subreddit': 'onKeydownSubreddit',
-				'focus #input-subreddit': 'onFocusSubreddit',
-				'blur #input-subreddit': 'onBlurSubreddit'
-			},
+            events: {
+                'click #input-subreddit-btn': 'onChangeSubreddit',
+                'keyup #input-subreddit': 'onKeydownSubreddit',
+                'focus #input-subreddit': 'onFocusSubreddit',
+                'blur #input-subreddit': 'onBlurSubreddit'
+            },
 
-			initialize: function() {
-				this.initializeRouting();
-			},
+            initialize: function() {
+                this.initializeRouting();
+            },
 
-			initializeRouting: function() {
-				var self = this;
+            initializeRouting: function() {
+                var self = this;
 
-				var AppRouter = Backbone.Router.extend({
-					routes: {
-						'sub/:subreddit(/)' : 'subredditRoute',
-						'*actions': 'defaultRoute',
-					},
+                var AppRouter = Backbone.Router.extend({
+                    routes: {
+                        'sub/:subreddit(/)' : 'subredditRoute',
+                        '*actions': 'defaultRoute'
+                    },
 
-					defaultRoute : function() {
-						if(self.currentApp) self.currentApp.remove();
+                    defaultRoute: function() {
+                        if (self.currentApp) self.currentApp.remove();
 
-						self.currentApp = new App({
-							subreddit: 'pics'
-						});
+                        self.currentApp = new App({
+                            subreddit: 'pics'
+                        });
 
-						$('body').append(self.currentApp.$el);
-					},
+                        $('body').append(self.currentApp.$el);
+                    },
 
-					subredditRoute: function(subreddit) {
-						if(self.currentApp) self.currentApp.remove();
+                    subredditRoute: function(subreddit) {
+                        if (self.currentApp) self.currentApp.remove();
 
-						self.currentApp = new App({
-							subreddit: subreddit
-						});
-						
-						$('body').append(self.currentApp.$el);
-					}
+                        self.currentApp = new App({
+                            subreddit: subreddit
+                        });
 
-				});
+                        $('body').append(self.currentApp.$el);
+                    }
 
-				this.router = new AppRouter();
+                });
 
-				Backbone.history.start();
-			},
+                this.router = new AppRouter();
 
-			onChangeSubreddit: function() {
-				var sub = $('#input-subreddit').val();
-				sub = sub.replace(' ', '+');
-				sub = sub.replace(',', '');
-				
-				sub = sub.replace('/r/', '');
-				sub = sub.replace('r/', '');
+                Backbone.history.start();
+            },
 
-				this.router.subredditRoute(sub);
-			},
+            onChangeSubreddit: function() {
+                var sub = $('#input-subreddit').val();
+                sub = sub.replace(' ', '+');
+                sub = sub.replace(',', '');
 
-			onKeydownSubreddit: function(e) {
-				if(e.keyCode == 13)
-					this.onChangeSubreddit();
-			},
+                sub = sub.replace('/r/', '');
+                sub = sub.replace('r/', '');
 
-			onFocusSubreddit: function(e) {
-				$('#input-subreddit').val("");
-			},
+                this.router.subredditRoute(sub);
+            },
 
-			onBlurSubreddit: function(e) {
-				$('#input-subreddit').val(this.currentApp.subreddit);
-			}
-		});
+            onKeydownSubreddit: function(e) {
+                if (e.keyCode == 13)
+                    this.onChangeSubreddit();
+            },
 
-		var main = new Main();
-	});
+            onFocusSubreddit: function(e) {
+                $('#input-subreddit').val('');
+            },
+
+            onBlurSubreddit: function(e) {
+                $('#input-subreddit').val(this.currentApp.subreddit);
+            }
+        });
+
+        var main = new Main();
+    });
 });

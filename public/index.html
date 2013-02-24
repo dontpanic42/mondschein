@@ -28,7 +28,7 @@
 			overflow: hidden;
 			background-color: rgb(44, 44, 44);
 			box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15); 
-			margin: 6px 6px 6px 6px;
+			margin: 8px 8px 8px 8px;
 			display: inline-block;
 			background-color: #fff;
 			position: relative;
@@ -40,6 +40,12 @@
 		.list-image img {
 			/*max-width: 220px;*/
 			position: relative;
+		}
+
+		.list-image .image-gallery {
+			position: absolute;
+			top: 0;
+			left: 0;
 		}
 
 		.list-image .image-container {
@@ -179,6 +185,30 @@
 
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
+		}
+
+		.image-icon {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 40px;
+			height: 220px;
+			background: rgba(0, 0, 0, 0.7);
+			display: block;
+			opacity: 1.0;
+		}
+
+		.icon-gallery {
+			background-image: url(img/folder_64.png);
+			width: 32px;
+			height: 32px;
+			background-size: 32px 32px;
+			display: inline-block;
+			margin: 4px 4px 4px 4px;
+		}
+
+		.hidden {
+			opacity: 0.0;
 		}
 
 	</style>
