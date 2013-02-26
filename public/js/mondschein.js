@@ -4,6 +4,7 @@ define([], function() {
         baseUrl: './js/',
         paths: {
             jquery: 'libs/jquery/jquery',
+            onoff: 'libs/jquery/jquery.onoff',
             handlebars: 'libs/handlebars/handlebars',
             underscore: 'libs/underscore/underscore',
             backbone: 'libs/backbone/backbone',
@@ -22,12 +23,17 @@ define([], function() {
 
             'handlebars' : {
                 exports: 'Handlebars'
+            },
+
+            'onoff': {
+                deps: ['jquery'],
+                exports: '$.fn.onoff'
             }
         }
     });
 
-    require(['jquery', 'backbone', 'views/application'],
-        function($, Backbone, App) {
+    require(['jquery', 'backbone', 'views/application', 'models/settings', 'onoff'],
+        function($, Backbone, App, Settings, IgnoreMe) {
         var Main = Backbone.View.extend({
             el: $('body'),
 
@@ -42,6 +48,12 @@ define([], function() {
             },
 
             initialize: function() {
+
+                this.$('#stealth-mode')
+                .onoff({init: (Settings.get('stealth'))? 'on' : 'off'})
+                .on('on', function() { Settings.set('stealth', true); console.log('off')})
+                .on('off', function() { Settings.set('stealth', false); console.log('on')});
+
                 this.initializeRouting();
             },
 
@@ -63,7 +75,8 @@ define([], function() {
 
                         $('body').append(self.currentApp.$el);
 
-                        this.navigate('sub/pics');
+                        if(!Settings.get('stealth'))
+                            this.navigate('sub/pics');
                     },
 
                     subredditRoute: function(subreddit) {
@@ -75,7 +88,8 @@ define([], function() {
 
                         $('body').append(self.currentApp.$el);
 
-                        this.navigate('sub/' + subreddit);
+                        if(!Settings.get('stealth'))
+                            this.navigate('sub/' + subreddit);
                     }
 
                 });

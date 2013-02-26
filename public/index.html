@@ -4,6 +4,7 @@
 	<title>Mondschein &middot; Reddit Picture Viewer</title>
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:600,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/jquery.onoff.css">
 	<link rel="stylesheet" type="text/css" href="css/viewer.css">
 	<style>
 		* {
@@ -212,6 +213,25 @@
 			opacity: 0.0;
 		}
 
+		#controls {
+			position: absolute;
+			right: 10px;
+			display: inline-block;
+			width: 200px;
+		}
+
+		#controls span {
+			font-weight: 600;
+			text-shadow: 1px 1px 1px #fff;
+			color: rgb(128, 128, 128);
+			font-size: 12px;
+			margin-right: 20px;
+		}
+
+		#controls #stealth-mode {
+			vertical-align: middle;
+		}
+
 	</style>
 </head>
 <body class='low-contrast'>
@@ -222,6 +242,7 @@
 		<div class='btnset'>
 			<input type='text' id='input-subreddit' class='btn' placeholder="Type a subreddit..."><a href='#' id='input-subreddit-btn' class='btn'>Go!</a>
 		</div>
+		<div id='controls'><span>Stealth-mode</span><div id='stealth-mode'></div></div>
 	</div>
 	<script data-main="js/mondschein.js" src="js/libs/require/require.js"></script>
 </body>

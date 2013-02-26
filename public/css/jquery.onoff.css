@@ -1,0 +1,82 @@
+/** onoff plugin css **/
+/** On/Off slide button css **/
+/** Usage: 
+	<div class='btn-onoff [btn-onoff-off]'>
+		<div class='btn-onoff-slider'></div>
+		<div class='btn-onoff-text-on'>On</div>
+		<div class='btn-onoff-text-off'>Off</div>
+	</div>
+**/
+
+.btn-onoff {
+	height: 20px;
+	width: 60px;
+	cursor: pointer;
+	border: 1px solid rgb(128, 128, 128);
+	border-radius: 15px;
+
+	display: inline-block;
+
+	box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.15);
+
+	background-color: rgb(84,148,198);
+	-webkit-transition:background-color 0.5s, -webkit-transform 0.5s;    
+	-o-transition:background-color 0.5s, -o-transform 0.5s; 
+    transition:background-color 0.5s, transform 0.5s;     
+    -moz-transition:background-color 0.5s, -moz-transform 0.5s;  
+}
+
+.btn-onoff.btn-onoff-off {
+	background-color: rgb(214, 215, 216);
+}
+
+.btn-onoff .btn-onoff-slider {
+	height: 18px;
+	width: 18px;
+	border-radius: 10px;
+	border: 1px solid #fff;
+	background-color: rgb(64, 64, 64);
+	position: relative;
+	left: 40px;
+
+	background-image: linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+	background-image: -o-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+	background-image: -moz-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+	background-image: -webkit-linear-gradient(bottom, rgb(185, 185, 186) 0%, rgb(212,212,212) 100%);
+	background-image: -ms-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+
+	-webkit-transition:left 0.5s, -webkit-transform 0.5s;
+	-o-transition:left 0.5s, -o-transform 0.5s;
+    transition:left 0.5s, transform 0.5s;  
+    -moz-transition:left 0.5s, -moz-transform 0.5s;
+
+    box-shadow: inset 7px 7px 7px rgba(255, 255, 255, 0.4);
+}
+
+.btn-onoff.btn-onoff-off .btn-onoff-slider {
+	left: 0px;
+}
+
+.btn-onoff .btn-onoff-text-on, .btn-onoff .btn-onoff-text-off {
+	font-weight: bold;
+	margin-top: -30px;
+	text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.btn-onoff .btn-onoff-text-on {
+	margin-left: -20px;
+	color: rgb(232, 232, 232);
+}
+
+.btn-onoff.btn-onoff-off .btn-onoff-text-on {
+	display: none;
+}
+
+.btn-onoff .btn-onoff-text-off {
+	margin-left: 15px;
+	color: rgb(128, 128, 128);
+}
+
+.btn-onoff:not(.btn-onoff-off) .btn-onoff-text-off{
+	display: none;
+}

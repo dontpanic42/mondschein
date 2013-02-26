@@ -43,7 +43,7 @@
             .append(this._ontextElement)
             .on(this.options.trigger, this._onToggle.bind(this));
 
-            if(this.options.init === 'off') 
+            if(this.options.init == 'off') 
                 this.off();
         },
 
