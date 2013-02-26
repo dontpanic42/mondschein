@@ -1,9 +1,10 @@
 define(['backbone',
     'handlebars',
     'views/image',
+    'views/viewer',
     'views/albumpreview',
     'text!templates/preview.html'],
-    function(Backbone, Handlebars, ImageView, ImageAlbumPreview, Template) {
+    function(Backbone, Handlebars, ImageView, Viewer, ImageAlbumPreview, Template) {
     'use strict';
 
     var exports = Backbone.View.extend({
@@ -29,11 +30,25 @@ define(['backbone',
 
                 this.$el.find('.image-icon').removeClass('hidden');
             } else {
-                this.image = new ImageView({
-                    image: self.model.get('thumb'),
-                    el: self.$('.image-container').get(0)
-                });
+                this.createImage();
             }
+        },
+
+        createImage: function(thumb) {
+            var self = this;
+            this.image = new ImageView({
+                image: self.model.get('thumb'),
+                el: self.$('.image-container').get(0)
+            });
+
+            this.image.$el.on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var viewer = new Viewer({
+                    images: [self.model.get('image')],
+                    mode: 'fit-window'
+                });
+            })
         },
 
         getImageTitle: function() {

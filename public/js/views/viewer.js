@@ -1,10 +1,16 @@
-define(['jquery', 'underscore', 'backbone', 'handlebars', 'views/viewerimage'], function($, _, Backbone, Handlebars, ViewerImage) {
+define(['jquery', 
+        'underscore', 
+        'backbone', 
+        'handlebars', 
+        'views/viewerimage',
+        'text!templates/viewer.html'], 
+        function($, _, Backbone, Handlebars, ViewerImage, tplViewer) {
     var Viewer = Backbone.View.extend({
 
         tagName: 'div',
         className: 'viewer',
 
-        template : Handlebars.compile('<div class="wrapper"><div class="stage"></div><div class="next v-center prevnext"></div><div class="prev prevnext v-center"></div><div class="close"></div></div>'), 
+        template : Handlebars.compile(tplViewer), 
 
         events: {
             'click .next': 'next',
@@ -133,7 +139,7 @@ define(['jquery', 'underscore', 'backbone', 'handlebars', 'views/viewerimage'], 
                 e.preventDefault();
                 e.stopPropagation();
             }
-            
+
             if(!this.hasPrev()) return;
 
             var c = this.views[this.page];

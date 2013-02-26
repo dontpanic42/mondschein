@@ -2,8 +2,9 @@ define(['jquery',
         'backbone',
         'collections/album',
         'models/preview',
-        'views/image'],
-    function($, Backbone, Album, ImageModel, ImageView) {
+        'views/image',
+        'views/viewer'],
+    function($, Backbone, Album, ImageModel, ImageView, Viewer) {
     'use strict';
 
     var exports = Backbone.View.extend({
@@ -27,6 +28,20 @@ define(['jquery',
                 image: link,
                 el: self.el
             });
+
+            img.$el.on('click', function(e) {
+                e.preventDefault();
+
+                var list = [];
+                this.album.each(function(image) {
+                    list.push(image.get('link'));
+                });
+
+                var v = new Viewer({
+                    images: list
+                });
+
+            }.bind(this));
         }
     });
 
