@@ -62,6 +62,8 @@ define([], function() {
                         });
 
                         $('body').append(self.currentApp.$el);
+
+                        this.navigate('sub/pics');
                     },
 
                     subredditRoute: function(subreddit) {
@@ -72,6 +74,8 @@ define([], function() {
                         });
 
                         $('body').append(self.currentApp.$el);
+
+                        this.navigate('sub/' + subreddit);
                     }
 
                 });
