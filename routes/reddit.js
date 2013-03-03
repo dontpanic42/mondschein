@@ -1,81 +1,41 @@
-var util = require('util');
-var http = require('http');
-var image = require('./images');
+var RedditRequest = require('../support/reddit/reddit').Request;
 
-var url = 'www.reddit.com';
+var errorStrings = {
+	E_RESPONSE: 'Reddit returned an error.',
+    E_CONNECTION: 'Server could not connect to reddit.',
+    E_PARSE: 'Reddit\'s response was malformed.',
+    E_EMPTY: 'Ther doesn\'t seem to be anything (more).',
+    E_NO_IMAGES: 'The reddit does not seem to contain any displayable content.',
 
-var subredditUri = '/r/:subreddits/:mode.json?count=60';
-
-function redditRequest(uri, callback) {
-	var options = {
-		host: url,
-		path: uri
-	};
-
-	http.get(options, function(response) {
-		var data = '';
-		response.on('data', function(chunk) {
-	 		data += chunk;
-	 	});
-
-	 	response.on('end', function() {
-	 		// console.log('-> http end');
-	 		try {
-	 			// console.log('calling try');
-	 			callback(response.statusCode, response.headers, JSON.parse(data));
-	 		} catch(e) {
-	 			console.log(e);
-	 			callback(response.statusCode, response.headers, {});
-	 		}
-	 	})
-	});
-}
-
-function getSubredditJson(subreddits, callback, after, mode) {
-	mode || (mode = 'hot');
-	var uri = subredditUri
-	.replace(':subreddits', subreddits)
-	.replace(':mode', mode);
-	if(after) {
-		uri += '&after=' + after;
-	}
-
-	// console.log(uri);
-
-	redditRequest(uri, function(status, headers, body) {
-		// console.log('reddit status', status);
-		if(status !== 200) body = {};
-		callback(body);
-	});
+    E_INTERNAL: 'An internal error occured.'
 };
 
-exports.getSubredditImages = function(subreddits, callback, after, mode) {
-	getSubredditJson(subreddits, function(response) {
-		if(!response 
-		|| !response.data 
-		|| !response.data.children
-		|| !response.data.children.length) {
-			callback([]);
-			return;
-		}
+var errorCodes = {
+	E_RESPONSE: 500,
+    E_CONNECTION: 503,
+    E_PARSE: 422,
+    E_EMPTY: 404,
+    E_NO_IMAGES: 444,
 
-		response = response.data.children;
-		var info, result = [], post;
-		for(var i = 0; i < response.length; i++) {
-			post = response[i].data;
-			info = image.appendPreviewInfo({
-				link : post.url,
-				author : post.author,
-				nsfw : post.over_18,
-				post : url + post.permalink,
-				title : post.title,
-				postid : post.name
-			});
+    E_INTERNAL: 500
+};
 
-			result.push(info);
-		}
+exports.find = function(req, res, next) {
+	var req = new RedditRequest(
+		req.params.reddits, 
+		req.params.after);
 
-		callback(result);
+	req.get(function(d) {
+		res.send(d);
+	}, function(d) {
+		var name = d.type;
+		var code = errorCodes[name];
+		var mesg = errorStrings[name];
 
-	}, after, mode);
+		res.send(code, {
+			status: code,
+			type: name,
+			message: mesg
+		});
+	});
 }

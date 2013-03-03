@@ -6,33 +6,36 @@ var express = require('express')
 var app = express();
 
 app.configure(function() {
-	//app.use(express.logger('dev'));
+	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({ secret: 'cassa123'}));
 	app.use(app.router);
-	app.use(function(error, req, res, next) {
-	    res.send({
-	        status: 500,
-	        code: error.code,
-	        message: error.message
-	    });
+	// app.use(function(error, req, res, next) {
+	//     res.send({
+	//         status: 500,
+	//         type: 'E_INTERNAL',
+	//         message: error.message
+	//     });
 
-	    console.log("Error: ", error);
-	});
+	//     console.log("Error: ", error);
+	// });
 	app.use(express.static(__dirname + '/public'));
 });
 
 app.get('/reddit/:reddits/:after', function(req, res, next) {
-	reddit.getSubredditImages(req.params.reddits, function(body) {
-		res.send(body);
-	}, req.params.after);
+	// reddit.getSubredditImages(req.params.reddits, function(body) {
+	// 	res.send(body);
+	// }, req.params.after);
+	reddit.find(req, res, next);
 });
 
 app.get('/reddit/:reddits', function(req, res, next) {
-	reddit.getSubredditImages(req.params.reddits, function(body) {
-		res.send(body);
-	});
+	// reddit.getSubredditImages(req.params.reddits, function(body) {
+	// 	res.send(body);
+	// });
+	console.log('Starting request');
+	reddit.find(req, res, next);
 });
 
 app.get('/imgur/:albumid', function(req, res, next) {

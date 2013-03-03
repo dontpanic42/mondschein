@@ -32,7 +32,7 @@ define(['jquery',
 
             this.render();
         },
-
+        
         render: function() {
             this.$el.hide();
 
