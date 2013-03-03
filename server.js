@@ -24,6 +24,7 @@ app.configure(function() {
 });
 
 app.get('/reddit/:reddits/:after', function(req, res, next) {
+	console.log('Starting request', req.params);
 	// reddit.getSubredditImages(req.params.reddits, function(body) {
 	// 	res.send(body);
 	// }, req.params.after);
@@ -34,7 +35,7 @@ app.get('/reddit/:reddits', function(req, res, next) {
 	// reddit.getSubredditImages(req.params.reddits, function(body) {
 	// 	res.send(body);
 	// });
-	console.log('Starting request');
+	console.log('Starting request', req.params);
 	reddit.find(req, res, next);
 });
 

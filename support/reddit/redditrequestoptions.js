@@ -16,8 +16,8 @@ function RequestOptions(subreddit, options) {
     options = cutil.extend(this.defaults, options);
     this.options = options;
 
-    if(this.options.last)
-        this.options.params.last = this.options.last;
+    if(this.options.after)
+        this.options.params.after = this.options.after;
 }
 
 RequestOptions.prototype = {

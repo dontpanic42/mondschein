@@ -49,7 +49,7 @@ define(['jquery',
             if (this.pages.length) {
                 var lastModel = _.last(this.pages).last();
                 if (lastModel)
-                    var after = lastModel.get('postid');
+                    var after = lastModel.get('id');
             }
 
             return after;

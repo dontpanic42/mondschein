@@ -47,8 +47,14 @@ Plugin.prototype = {
         //not much (synchronous) work to do here...
         object.gallery = true;
         object.image = link;
+        object.albumid = this._getAlbumId(link);
 
         return object;
+    },
+
+    _getAlbumId: function(link) {
+        var regex = /[^\/]+(?=\/$|$)/;
+        return link.match(regex)[0];
     }
 };
 
