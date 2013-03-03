@@ -46,7 +46,14 @@ Plugin.prototype = {
 
     _getMemeId: function(link) {
         var regex = /[^\/]+(?=\/$|$)/;
-        return link.match(regex)[0];
+        var id = link.match(regex)[0];
+
+        //if the link is an indirect-shortened lin,,
+        //i.e. http://qkme.me/3t7jp5?id=230459513
+        if(id.indexOf('?') != -1)
+            return id.split('?').shift();
+
+        return id;
     }
 };
 

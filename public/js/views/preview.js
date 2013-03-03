@@ -22,7 +22,7 @@ define(['backbone',
             this.$el.html(this.template(this));
             var self = this;
 
-            if (this.model.get('isGallery')) {
+            if (this.model.get('gallery')) {
                 var img = new ImageAlbumPreview({
                  model: self.model,
                  el: self.$('.image-container').get(0)
