@@ -93,7 +93,6 @@
         load: function(num) {
             this._clearContainer();
             this._showSpinner(true);
-            console.log('loading', this.current, this.urls[this.current]);
             this._loadImage(
                 this.current,
                 this.urls[this.current],
@@ -241,8 +240,6 @@
             this.faderCallback = null;
             var self = this;
 
-            console.warn(objects.length, this._isTouchDevice());
-
             //no fading out for touch devices...
             if(this._isTouchDevice()) return;
 
@@ -297,8 +294,6 @@
                 case 27: this._destroy(); e.preventDefault(); break;
                 default: break;
             }
-
-            console.log(e.keyCode);
         },
 
         _checkButtonActivation: function() {

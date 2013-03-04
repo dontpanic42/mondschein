@@ -12,13 +12,11 @@ define(['jquery', 'underscore', 'backbone'],
 
         initialize: function(options) {
             this.options = $.extend({
-                mode: 'overscan',
                 border: 0
             }, options)
 
             this.image = $('<img />');
             this.image.hide();
-            console.log('start loading', this.options.image);
             this.image.on('load', this.render.bind(this));
             this.image.on('error', this.renderError.bind(this));
             this.image.attr('src', this.options.image);
@@ -38,28 +36,19 @@ define(['jquery', 'underscore', 'backbone'],
 
         resize: function() {
             var si = this.$el.height();
-            var sw = (this.options.mode == 'fit-window')?
-                        $(window).width() : 
-                        si;
 
             si -= (this.options.border * 2);
-            sw -= (this.options.border * 2);
 
             var iw = this.image.get(0).width;
             var ih = this.image.get(0).height;
-            console.log(iw, ih);
 
             //if image is smaller than preview
             //do not touch the preview size
-            if (iw < sw && ih < si) return;
+            if (iw < si && ih < si) return;
 
-            if(this.options.mode == 'fit-window') {
-                var fac = Math.min(sw / iw, si / ih);
-            } else {
-                var fac = (iw > ih) ?
-                            si / ih  :
-                            si / iw  ;
-            }
+            var fac = (iw > ih) ?
+                        si / ih  :
+                        si / iw  ;
 
             this.image.get(0).width = iw * fac;
             this.image.get(0).height = ih * fac;
@@ -73,25 +62,13 @@ define(['jquery', 'underscore', 'backbone'],
             var iw = this.image.get(0).width;
             var ih = this.image.get(0).height;
 
-            if(this.options.mode == 'fit-window') {
-                si = $(window).height();
-                sw = $(window).width();
 
-                if (ih < si) {
-                    var top = (si - ih) / 2;
-                    this.image.css({
-                        top: top
-                    });
-                }
+            if(iw < si && ih < si) return;
 
-            } else { 
-                if(iw < si && ih < si) return;
-
-                this.image.css({
-                    top: -((ih - si) / 2),
-                    left: -((iw - si) / 2)
-                });
-            }
+            this.image.css({
+                top: -((ih - si) / 2),
+                left: -((iw - si) / 2)
+            });
 
         }
     });
