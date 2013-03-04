@@ -243,6 +243,11 @@
             //no fading out for touch devices...
             if(this._isTouchDevice()) return;
 
+            var fadeoutCallback = function() {
+                    if(!objects.hasClass('mview-fadeout'))
+                        objects.addClass('mview-fadeout');
+            };
+
             this.faderCallback = function() {
                 if(self.fader)
                     clearTimeout(self.fader);
@@ -250,10 +255,7 @@
                 if(objects.hasClass('mview-fadeout'))
                    objects.removeClass('mview-fadeout');
 
-                self.fader = setTimeout(function() {
-                    if(!objects.hasClass('mview-fadeout'))
-                        objects.addClass('mview-fadeout');
-                }, 3000);
+                self.fader = setTimeout(fadeoutCallback, 2000);
 
             }; 
 
