@@ -5,8 +5,6 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:600,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/jquery.onoff.css">
-	<link rel="stylesheet" type="text/css" href="css/slimbox2.css">
-	<link rel="stylesheet" type="text/css" href="css/viewer.css">
 	<style>
 		* {
 			margin: 0;
@@ -296,6 +294,168 @@
 			font-weight: 600;
 		}
 
+		/** mview stuff **/
+
+		.mview-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background-color: #000;
+			opacity: 0.8;
+
+			z-index: 2500;
+
+			-webkit-transition:opacity 0.3s, -webkit-transform 0.3s; 
+			-moz-transition:opacity 0.3s, -moz-transform 0.3s; 
+			-o-transition:opacity 0.3s, -o-transform 0.3s; 
+			-ms-transition:opacity 0.3s, -ms-transform 0.3s; 
+			transition:opacity 0.3s, transform 0.3s; 
+		}
+
+		.mview-container {
+			position: fixed;
+			top: 123px;
+			left: 0px;
+			width: 0px;
+			height: 0px;
+			background-color: #fff;
+			z-index: 2510;
+			padding: 10px;
+		}
+
+		.mview-container.mview-spinner {
+			background-image: url(img/spinner.gif);
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+
+		.mview-button {
+			position: fixed;
+			height: 50px;
+			line-height: 50px;
+			width: 60px;
+			background-color: rgba(255, 255, 255, 0.8);
+			z-index: 2520;
+			font-weight: 600;
+			cursor: pointer;
+			opacity: 1.0;
+
+			-webkit-transition:opacity 0.7s, -webkit-transform 0.7s; 
+			-moz-transition:opacity 0.3s, -moz-transform 0.3s; 
+			-o-transition:opacity 0.3s, -o-transform 0.3s; 
+			-ms-transition:opacity 0.3s, -ms-transform 0.3s; 
+			transition:opacity 0.3s, transform 0.3s; 
+		}
+
+		.mview-button.mview-next {
+			right: 0px;
+			border-top-left-radius: 25px;
+			border-bottom-left-radius: 25px;
+		}
+
+		.mview-button.mview-prev {
+			left: 0px;
+			border-top-right-radius: 25px;
+			border-bottom-right-radius: 25px;
+		}
+
+		.mview-button.mview-hidden {
+			opacity: 0.0;
+		}
+
+
+		.mview-buttonbar {
+			position: fixed;
+			bottom: 5px;
+			height: 40px;
+			line-height: 40px;
+			/*border-radius: 20px;*/
+			border-bottom-right-radius: 20px;
+			border-top-right-radius: 20px;
+			background-color: rgba(0, 0, 0, 0.8);
+			z-index: 2520;
+			/*width: 160px;*/
+			opacity: 1.0;
+
+			-webkit-transition:opacity 0.7s, -webkit-transform 0.7s; 
+			-moz-transition:opacity 0.7s, -moz-transform 0.7s; 
+			-o-transition:opacity 0.7s, -o-transform 0.7s; 
+			-ms-transition:opacity 0.7s, -ms-transform 0.7s; 
+			transition:opacity 0.7s, transform 0.7s; 
+
+			padding-left: 10px;
+			padding-right: 20px;
+
+		}
+
+		.mview-buttonbar.mview-fadeout {
+			opacity: 0.0;
+		}
+
+		.mview-buttonbar span {
+			display: inline-block;
+			height: 40px;
+			font-weight: 600;
+			text-align: left;
+			color: #fff;
+			line-height: 40px;
+			vertical-align: bottom;
+		}
+
+		.mview-buttonbar a, .mview-buttonbar a:hover, .mview-buttonbar a:active {
+			text-decoration: none;
+			width: 16px;
+			height: 40px;
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+			background-position: center center;
+			vertical-align: bottom;
+			display: inline-block;
+			margin-right: 10px;
+			cursor: pointer;
+		}
+
+		.mview-buttonbar .comments {
+			background-image: url(img/comment_64.png);
+		}
+
+		.mview-buttonbar .original {
+			background-image: url(img/link_64.png);
+		}
+
+		.mview-close {
+			position: fixed;
+			top: 10px;
+			right: 10px;
+
+			width: 30px;
+			height: 30px;
+			border-radius: 20px;
+			background-color:  rgba(0, 0, 0, 0.8);
+			border: 3px solid rgba(255, 255, 255, 0.8);
+
+			background-size: 16px;
+			background-position: center center;
+			background-repeat: no-repeat;
+			background-image: url(img/delete_64.png);
+			z-index: 2520;
+			opacity: 1.0;
+
+			-webkit-transition:opacity 0.7s, -webkit-transform 0.7s; 
+			-moz-transition:opacity 0.7s, -moz-transform 0.7s; 
+			-o-transition:opacity 0.7s, -o-transform 0.7s; 
+			-ms-transition:opacity 0.7s, -ms-transform 0.7s; 
+			transition:opacity 0.7s, transform 0.7s; 
+
+			cursor: pointer;
+		}
+
+		.mview-fadeout {
+			opacity: 0.0;
+		}
+
 	</style>
 </head>
 <body>
@@ -308,7 +468,6 @@
 		</div>
 		<div id='controls'><span>Stealth-mode</span><div id='stealth-mode'></div></div>
 	</div>
-	<!-- <div class='banner'>That's it.<div class='close'></div></div> -->
 	<script data-main="js/mondschein.js" src="js/libs/require/require.js"></script>
 </body>
 </html>

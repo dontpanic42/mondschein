@@ -1,10 +1,10 @@
 define(['backbone',
     'handlebars',
     'views/image',
-    'views/viewer',
     'views/albumpreview',
-    'text!templates/preview.html'],
-    function(Backbone, Handlebars, ImageView, Viewer, ImageAlbumPreview, Template) {
+    'text!templates/preview.html',
+    'mview'],
+    function(Backbone, Handlebars, ImageView, ImageAlbumPreview, Template, Ignore) {
     'use strict';
 
     var exports = Backbone.View.extend({
@@ -44,9 +44,10 @@ define(['backbone',
             this.image.$el.on('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var viewer = new Viewer({
+                $('<div />').mview({
                     images: [self.model.get('image')],
-                    mode: 'fit-window'
+                    comments: self.model.get('comments'),
+                    original: self.model.get('link')
                 });
             })
         },

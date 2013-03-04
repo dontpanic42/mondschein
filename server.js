@@ -40,9 +40,17 @@ app.get('/reddit/:reddits', function(req, res, next) {
 });
 
 app.get('/imgur/:albumid', function(req, res, next) {
+	try{
 	imgur.getAlbumImages(req.params.albumid, function(result) {
 		res.send(result);
 	});
+	} catch(e) {
+		res.send({
+			status: 404,
+			type: 'E_NO_IMAGES',
+			e: null
+		});
+	}
 });
 
 var port = process.env.PORT || 8000;

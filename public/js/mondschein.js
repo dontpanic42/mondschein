@@ -5,7 +5,7 @@ define([], function() {
         paths: {
             jquery: 'libs/jquery/jquery',
             onoff: 'libs/jquery/jquery.onoff',
-            slimbox: 'libs/jquery/jquery.slimbox2',
+            mview: 'libs/jquery/jquery.mview',
             handlebars: 'libs/handlebars/handlebars',
             underscore: 'libs/underscore/underscore',
             backbone: 'libs/backbone/backbone',
@@ -31,9 +31,9 @@ define([], function() {
                 exports: '$.fn.onoff'
             },
 
-            'slimbox': {
+            'mview': {
                 deps: ['jquery'],
-                exports: '$.fn.slimbox'
+                exports: '$.fn.mview'
             }
         }
     });
