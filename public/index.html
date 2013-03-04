@@ -5,6 +5,7 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:600,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/jquery.onoff.css">
+	<link rel="stylesheet" type="text/css" href="css/slimbox2.css">
 	<link rel="stylesheet" type="text/css" href="css/viewer.css">
 	<style>
 		* {
@@ -232,9 +233,72 @@
 			vertical-align: middle;
 		}
 
+		/** Banners **/
+
+		.banner {
+			position: relative;
+			width: 98%;
+			margin: 0px auto;
+			margin-bottom: 5px;
+			height: 32px;
+			line-height: 32px;
+			display: block;
+			background-image: linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			background-image: -o-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			background-image: -moz-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+			background-image: -webkit-linear-gradient(bottom, rgb(45, 45, 45) 0%, rgb(67, 67, 67) 100%);
+			background-image: -ms-linear-gradient(bottom, rgb(111, 172, 213) 0%, rgb(84,148,198) 100%);
+
+			border-radius: 7px;
+			border: 1px solid rgb(17, 17, 17);
+			box-shadow: inset 0px 1px 1px rgb(128, 128, 128);
+
+			color: #fff;
+			padding-left: 10px;
+
+			opacity: 1.0;
+			-webkit-transition:opacity 0.3s, -webkit-transform 0.3s; 
+			-moz-transition:opacity 0.3s, -moz-transform 0.3s; 
+			-o-transition:opacity 0.3s, -o-transform 0.3s; 
+			-ms-transition:opacity 0.3s, -ms-transform 0.3s; 
+			transition:opacity 0.3s, transform 0.3s; 
+		}
+
+		.banner .hidden {
+			opacity: 0.0;
+		}
+
+		.banner .close {
+			position: absolute;
+			right: 5px;
+			display: inline-block;
+			background-image: url(img/delete_64.png);
+			background-position: center center;
+			background-size: 16px 16px;
+			background-repeat: no-repeat;
+			width: 20px;
+			height: 100%;
+			opacity: 0.5;
+			cursor: pointer;
+			-webkit-transition:opacity 0.3s, -webkit-transform 0.3s; 
+			-moz-transition:opacity 0.3s, -moz-transform 0.3s; 
+			-o-transition:opacity 0.3s, -o-transform 0.3s; 
+			-ms-transition:opacity 0.3s, -ms-transform 0.3s; 
+			transition:opacity 0.3s, transform 0.3s; 
+		}
+
+		.banner .close:hover {
+			opacity: 1.0;
+		}
+
+		.banner span {
+			color: #fff;
+			font-weight: 600;
+		}
+
 	</style>
 </head>
-<body class='low-contrast'>
+<body>
 	<div id='header'>
 		<div class='brand'>
 			Mondschein
@@ -244,6 +308,7 @@
 		</div>
 		<div id='controls'><span>Stealth-mode</span><div id='stealth-mode'></div></div>
 	</div>
+	<!-- <div class='banner'>That's it.<div class='close'></div></div> -->
 	<script data-main="js/mondschein.js" src="js/libs/require/require.js"></script>
 </body>
 </html>

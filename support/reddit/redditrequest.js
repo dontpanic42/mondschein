@@ -14,7 +14,7 @@ Request.prototype = {
     // E_EMPTY (catches empty responses)
     get: function(successcb, errorcb) {
         var self = this;
-        http.get(this.options, function(response) {
+        var request = http.get(this.options, function(response) {
             if(response.statusCode != 200) {
                 errorcb({
                     status: response.statusCode,
@@ -44,6 +44,14 @@ Request.prototype = {
                     object: e
                 });
             }) 
+        });
+
+        request.on('error', function(e) {
+            errorcb({
+                status: 404,
+                type: 'E_CONNECTION',
+                object: e
+            });
         })
     },
 

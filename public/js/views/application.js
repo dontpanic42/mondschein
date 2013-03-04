@@ -2,8 +2,9 @@ define(['jquery',
         'underscore',
         'backbone',
         'collections/preview',
-        'views/preview'],
-    function($, _, Backbone, Preview, PreviewView) {
+        'views/preview',
+        'views/bodymessage'],
+    function($, _, Backbone, Preview, PreviewView, Message) {
     'use strict';
     var exports = Backbone.View.extend({
 
@@ -13,7 +14,17 @@ define(['jquery',
         autoload: false,
         autoloadOffset: 600,
 
+        errorMessages: {
+            501: 'The subreddit could not be found.',
+            503: 'Could not connect to reddit - perhaps it\'s down?',
+            422: 'Reddits response could not be handled.',
+            404: 'There is no (more) content to show.',
+            444: 'There is no (more) displayable content.',
+            500: 'An unknown error occured.'
+        },
+
         initialize: function(options) {
+            this.message = null;
             this.views = [];
             this.pages = [];
             this.autoLoadHandlerInstance = null,
@@ -41,7 +52,8 @@ define(['jquery',
             this.pages.push(page = new Preview());
             page.fetch({
                 url: url,
-                success: self.createPageFinished.bind(self)
+                success: self.createPageFinished.bind(self),
+                error: self.createPageFailed.bind(self)
             });
         },
 
@@ -70,6 +82,17 @@ define(['jquery',
             //in case the browserwindow is bigger than the
             //loaded set.
             this.autoLoadHandler();
+        },
+
+        createPageFailed: function(collection, xhr) {
+            console.log('Error loading page', arguments);
+            var msg = (xhr.status in this.errorMessages)?
+                        this.errorMessages[xhr.status]:
+                        this.errorMessages[500];
+
+            this.message = new Message({
+                message: msg
+            });
         },
 
         getUrl: function(options) {
@@ -103,12 +126,19 @@ define(['jquery',
         },
 
         remove: function() {
+            if(this.message) {
+                this.message.remove();   
+                this.message = null;
+            }
+
             $(document).unbind('scroll', this.autoLoadHandlerInstance);
             Backbone.View.prototype.remove.call(this);
 
             _.each(this.views, function(view) {
                 view.remove();
             });
+
+            this.unbind();
         }
     });
 

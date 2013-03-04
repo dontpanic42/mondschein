@@ -5,6 +5,7 @@ define([], function() {
         paths: {
             jquery: 'libs/jquery/jquery',
             onoff: 'libs/jquery/jquery.onoff',
+            slimbox: 'libs/jquery/jquery.slimbox2',
             handlebars: 'libs/handlebars/handlebars',
             underscore: 'libs/underscore/underscore',
             backbone: 'libs/backbone/backbone',
@@ -28,6 +29,11 @@ define([], function() {
             'onoff': {
                 deps: ['jquery'],
                 exports: '$.fn.onoff'
+            },
+
+            'slimbox': {
+                deps: ['jquery'],
+                exports: '$.fn.slimbox'
             }
         }
     });

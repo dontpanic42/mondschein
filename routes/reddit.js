@@ -11,7 +11,7 @@ var errorStrings = {
 };
 
 var errorCodes = {
-	E_RESPONSE: 500,
+	E_RESPONSE: 501,
     E_CONNECTION: 503,
     E_PARSE: 422,
     E_EMPTY: 404,
