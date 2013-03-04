@@ -48,13 +48,14 @@ RedditImageRequest.prototype = {
     _filterImageLinks: function(list) {
         var tmp, obj;
         var result = [];
+        var host = 'http://' + this.options.host;
         for(var i = 0; i < list.length; i++) {
             tmp = list[i];
             obj = resolver.resolve(tmp.url, {
                 link: tmp.url,
                 thumb: tmp.url,
                 gallery: false,
-                comments: tmp.permalink,
+                comments: host + tmp.permalink,
                 title: tmp.title,
                 id: tmp.name
             });

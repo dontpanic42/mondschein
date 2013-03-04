@@ -57,6 +57,8 @@
             this.$element.addClass('mview');
             this.$element.append(this.elements);
             this.target.append(this.$element);
+            this.resizeHandler = this._resizeHandler.bind(this);
+            $(window).on('resize', this.resizeHandler);
 
             this._installButtons();
 
@@ -125,15 +127,10 @@
         },
 
         _centerContainer: function() {
-            var cw = this.elements[0].outerWidth();
-            var ch = this.elements[0].outerHeight();
-
             var self = this;
             this.elements[0].css({
-                top:  (ch < self.maxHeight)?
-                        (self.maxHeight - ch) / 2 : 0,
-                left: (cw < self.maxWidth)?
-                        (self.maxWidth - cw) / 2 : 0
+                top: (self.maxHeight - this.elements[0].outerHeight()) / 2,
+                left: (self.maxWidth - this.elements[0].outerWidth()) / 2
             });
         },
 
@@ -289,6 +286,14 @@
 
         },
 
+        _resizeHandler: function() {
+            console.log('event');
+            this.maxWidth = $(window).width();
+            this.maxHeight = $(window).height();
+            this._centerContainer();
+            this._vcenterButtons();
+        },
+
         _keyDownHandler: function(e) {
             switch(e.keyCode) {
                 case 37: this.prev(); e.preventDefault(); break;
@@ -327,6 +332,7 @@
 
             this.target.off('mousemove', this.faderCallback);
             this.target.off('keyup', this.keyHandler);
+            $(window).off('resize', this.resizeHandler);
 
             this.$element.children().unbind();
             this.$element.children().remove();
