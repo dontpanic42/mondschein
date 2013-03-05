@@ -15,10 +15,13 @@ define(['jquery', 'underscore', 'backbone'],
                 border: 0
             }, options)
 
+            this.loadHandler = this.render.bind(this);
+            this.errorHandler = this.renderError.bind(this);
+
             this.image = $('<img />');
             this.image.hide();
-            this.image.on('load', this.render.bind(this));
-            this.image.on('error', this.renderError.bind(this));
+            this.image.on('load', this.loadHandler);
+            this.image.on('error', this.errorHandler);
             this.image.attr('src', this.options.image);
         },
 
@@ -70,6 +73,14 @@ define(['jquery', 'underscore', 'backbone'],
                 left: -((iw - si) / 2)
             });
 
+        },
+
+        remove: function() {
+            this.unbind();
+            this.image.off('load', this.loadHandler);
+            this.image.off('error', this.errorHandler);
+            this.image.unbind().remove();
+            Backbone.View.prototype.remove.call(this);
         }
     });
 

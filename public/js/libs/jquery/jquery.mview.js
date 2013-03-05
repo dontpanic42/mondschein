@@ -73,22 +73,16 @@
                             this.elements[0].width() +
                             (this.options.margin * 2);
 
-            window.next = this.next.bind(this);
-            window.prev = this.prev.bind(this);
-            window.d = this._destroy.bind(this);
-
             this.load(this.options.startWith);
         },
 
         next: function() {
             if(!this._hasNext()) return;
-
             this.load(++this.current);
         },
 
         prev: function() {
             if(!this._hasPrev()) return;
-
             this.load(--this.current);
         },
 
@@ -163,24 +157,20 @@
 
         _loadImage: function(num, url, callback) {
             if(num in this.images) {
-                this._loadImageComplete(num, url, callback);
+                callback(num, url);
                 return;
             }
 
             this.images[num] = new Image();
             this.images[num].onload = function() {
-                this._loadImageComplete(num, url, callback);
-            }.bind(this);
+                callback(num, url);
+            };
 
             this.images[num].onerror = function() {
                 this._loadImageFailed(num, url, callback);
             }.bind(this);
 
             this.images[num].src = url;
-        },
-
-        _loadImageComplete: function(num, url, callback) {
-            callback(num, url);
         },
 
         _loadImageFailed: function(num, url, callback) {
@@ -235,6 +225,7 @@
         _installFadingHandler: function(objects) {
             this.fader = null;
             this.faderCallback = null;
+            this.fadingObjects = objects;
             var self = this;
 
             //no fading out for touch devices...
@@ -269,7 +260,9 @@
 
             this.elements[3].find('.comments').attr('href', this.options.comments);
             this.elements[3].find('.original').attr('href', this.options.original);
-            this.elements[4].on('click', this._destroy.bind(this));
+            var destroyHandler = this._destroy.bind(this);
+            this.elements[4].on('click', destroyHandler);
+            this.overlay.on('click', destroyHandler);
 
             this._installFadingHandler(this.$element.find('.mview-button, .mview-buttonbar, .mview-close'));
             this.keyHandler = this._keyDownHandler.bind(this);
@@ -278,11 +271,10 @@
             if(this.urls.length <= 1) {
                 n.hide();
                 p.hide();
-                return;
+            } else {
+                n.on('click', this.next.bind(this));
+                p.on('click', this.prev.bind(this));
             }
-                
-            n.on('click', this.next.bind(this));
-            p.on('click', this.prev.bind(this));
 
         },
 
@@ -326,7 +318,9 @@
         },
 
         _destroy: function() {
+            //clear faders
             if(self.fader) clearTimeout(self.fader);
+            this.fadingObjects.unbind().remove();
 
             $(this.element).removeData(pluginName);
 

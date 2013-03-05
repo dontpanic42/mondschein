@@ -132,13 +132,14 @@ define(['jquery',
             }
 
             $(document).unbind('scroll', this.autoLoadHandlerInstance);
+            this.unbind();
             Backbone.View.prototype.remove.call(this);
 
             _.each(this.views, function(view) {
                 view.remove();
             });
 
-            this.unbind();
+            this.pages = null;
         }
     });
 
