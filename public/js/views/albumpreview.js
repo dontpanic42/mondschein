@@ -3,8 +3,8 @@ define(['jquery',
         'collections/album',
         'models/preview',
         'views/image',
-        'mview'],
-    function($, Backbone, Album, ImageModel, ImageView, ToIgnore) {
+        'views/viewer'],
+    function($, Backbone, Album, ImageModel, ImageView, Viewer) {
     'use strict';
 
     var exports = Backbone.View.extend({
@@ -38,10 +38,10 @@ define(['jquery',
                 });
 
                 var self = this;
-                $('<div />').mview({
+                var viewer = new Viewer({
                     images: list,
                     comments: self.model.get('comments'),
-                    original: self.model.get('link')
+                    original: self.model.get('link')                   
                 });
 
             }.bind(this));

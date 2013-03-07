@@ -3,8 +3,8 @@ define(['backbone',
     'views/image',
     'views/albumpreview',
     'text!templates/preview.html',
-    'mview'],
-    function(Backbone, Handlebars, ImageView, ImageAlbumPreview, Template, Ignore) {
+    'views/viewer'],
+    function(Backbone, Handlebars, ImageView, ImageAlbumPreview, Template, Viewer) {
     'use strict';
 
     var exports = Backbone.View.extend({
@@ -23,18 +23,23 @@ define(['backbone',
             var self = this;
 
             if (this.model.get('gallery')) {
-                var img = new ImageAlbumPreview({
-                 model: self.model,
-                 el: self.$('.image-container').get(0)
-                });
-
-                this.$el.find('.image-icon').removeClass('hidden');
+                this.createAlbum();
             } else {
                 this.createImage();
             }
         },
 
-        createImage: function(thumb) {
+        createAlbum: function() {      
+            var self = this;          
+            var img = new ImageAlbumPreview({
+                model: self.model,
+                el: self.$('.image-container').get(0)
+            });
+
+            this.$el.find('.image-icon').removeClass('hidden');
+        },
+
+        createImage: function() {
             var self = this;
             this.image = new ImageView({
                 image: self.model.get('thumb'),
@@ -44,7 +49,7 @@ define(['backbone',
             this.image.$el.on('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                $('<div />').mview({
+                var viewer = new Viewer({
                     images: [self.model.get('image')],
                     comments: self.model.get('comments'),
                     original: self.model.get('link')
@@ -63,7 +68,8 @@ define(['backbone',
         },
 
         remove: function() {
-            if (this.image) this.image.remove();
+            if (this.image)
+                this.image.remove();
             Backbone.View.prototype.remove.call(this);
         }
 

@@ -79,6 +79,7 @@ define(['jquery', 'underscore', 'backbone'],
             this.unbind();
             this.image.off('load', this.loadHandler);
             this.image.off('error', this.errorHandler);
+            this.image.$el.unbind();
             this.image.unbind().remove();
             Backbone.View.prototype.remove.call(this);
         }
