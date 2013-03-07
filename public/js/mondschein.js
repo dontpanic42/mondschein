@@ -73,16 +73,7 @@ define([], function() {
                     },
 
                     defaultRoute: function() {
-                        if (self.currentApp) self.currentApp.remove();
-
-                        self.currentApp = new App({
-                            subreddit: 'pics'
-                        });
-
-                        $('body').append(self.currentApp.$el);
-
-                        if(!Settings.get('stealth'))
-                            this.navigate('sub/pics');
+                        this.subredditRoute('pics');
                     },
 
                     subredditRoute: function(subreddit) {

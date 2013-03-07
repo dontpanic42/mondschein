@@ -53,7 +53,7 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
                 clearTimeout(this.fader);
 
             this.$window.off('resize', this.resizeHandler);
-            this.target.off('keyup', this.keypresshandler);
+            this.target.off('keyup', this.keypressHandler);
 
             this.unbind();
             this.remove();

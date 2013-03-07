@@ -20,7 +20,9 @@ define(['jquery',
             margin: 10,
             text: 'Image {n} of {N}',
             comments: 'reddit.com/r/comments',
-            original: 'reddit.com/r/original'
+            original: 'reddit.com/r/original',
+            minWidth: 40,
+            minHeight: 40
         },
 
 
@@ -68,6 +70,9 @@ define(['jquery',
 
             this.resizeHandler = this.onWindowResize.bind(this);
             $(window).on('resize', this.resizeHandler);
+
+            this.resizeContainer(0, 0);
+            this.centerContainer();
 
             this.load(0);
         },
@@ -130,6 +135,14 @@ define(['jquery',
 
         resizeContainer: function(width, height, callback) {
             var self = this;
+
+            width = (this.options.minWidth > width)? 
+                        this.options.minWidth:
+                        width;
+
+            height = (this.options.minHeight > height)?
+                        this.options.minHeight:
+                        height;
 
             if(callback) {
                 this.elements.container

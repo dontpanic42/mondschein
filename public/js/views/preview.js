@@ -36,7 +36,7 @@ define(['backbone',
                 el: self.$('.image-container').get(0)
             });
 
-            this.$el.find('.image-icon').removeClass('hidden');
+            //this.$el.find('.image-icon').removeClass('hidden');
         },
 
         createImage: function() {
