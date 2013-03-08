@@ -9,7 +9,8 @@ define([], function() {
             handlebars: 'libs/handlebars/handlebars',
             underscore: 'libs/underscore/underscore',
             backbone: 'libs/backbone/backbone',
-            text: 'libs/require/text'
+            text: 'libs/require/text',
+            cookie: 'libs/jquery/jquery.cookie'
         },
 
         shim: {
@@ -34,6 +35,11 @@ define([], function() {
             'mview': {
                 deps: ['jquery'],
                 exports: '$.fn.mview'
+            },
+
+            'cookie': {
+                deps: ['jquery'],
+                exports: '$.cookie'
             }
         }
     });
@@ -66,12 +72,7 @@ define([], function() {
                 .on('on', function() { Settings.set('stealth', true); console.log('off')})
                 .on('off', function() { Settings.set('stealth', false); console.log('on')});
 
-                var self = this;
-                $('body').on('keyup', function(e) {
-                    if(e.keyCode == 76) { //'l'
-                        $('#input-subreddit').focus();
-                    }
-                });
+                $('body').on('keyup', this.globalKeyHandler.bind(this));
 
                 this.listenTo(Events, 'change:subreddit', this.onChangeSubreddit, this);
 
@@ -144,6 +145,17 @@ define([], function() {
 
             onBlurSubreddit: function(e) {
                 $('#input-subreddit').val(this.currentApp.subreddit);
+            },
+
+            globalKeyHandler: function(e) {
+                switch(e.keyCode) {
+                    case 76:    // 'l', focus input
+                        var t = $('#input-subreddit');
+                        if(!t.is(':focus'))
+                            t.focus();
+                        break;
+                    default: break;
+                }
             }
         });
 
