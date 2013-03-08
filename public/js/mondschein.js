@@ -130,6 +130,7 @@ define([], function() {
 
                 $('body').append(this.currentApp.$el);
 
+                $('#input-subreddit').val(name);
                 if(!Settings.get('stealth'))
                     this.router.navigate('sub/' + name);
             },
