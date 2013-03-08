@@ -1,0 +1,27 @@
+<div class='triangle'></div>
+<div class='border'>
+    <div class='content'>
+        <table>
+            <thead>
+                <tr>
+                    <th>Recent</th>
+                    <th>Great</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {{#each recent}}
+                            <a href='#{{this.url}}'><p>{{this.name}}</p></a>
+                        {{/each}}
+                    </td>
+                    <td>
+                        {{#each recommended}}
+                            <a href='#{{this.url}}'><p>{{this.name}}</p></a>
+                        {{/each}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

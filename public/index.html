@@ -3,6 +3,13 @@
 <head>
 	<title>Mondschein &middot; Reddit Picture Viewer</title>
 
+	<!-- iOS icons -->
+	<link rel="apple-touch-icon" href="icons/touch-icon-iphone.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="icons/touch-icon-ipad.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="icons/touch-icon-iphone-retina.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="icons/touch-icon-ipad-retina.png" />
+	<!-- iOS icons end -->
+
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:600,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/jquery.onoff.css">
 	<style>
@@ -455,6 +462,91 @@
 		.mview-fadeout {
 			opacity: 0.0;
 		}
+
+        /** Popup Bubble **/
+
+        .bubble {
+            position: fixed;
+            width: 50%;
+            z-index: 1000;
+        }
+
+        .bubble .border {
+            background-color: red;
+            padding: 4px;
+            border-radius: 15px;
+            border: 1px solid rgb(128, 128, 128);
+
+            background-image: linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+            background-image: -o-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+            background-image: -moz-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+            background-image: -webkit-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+            background-image: -ms-linear-gradient(bottom, rgb(214,215,216) 0%, rgb(235,235,235) 100%);
+
+            box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .bubble .content {
+            border: 1px solid rgb(128, 128, 128);
+            background-color: rgb(242, 242, 242);
+            border-radius: 12px;
+        }
+
+        .bubble .triangle {
+            position: relative;
+            left: 100px;
+            border-bottom: 10px solid rgb(235,235,235);
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            width: 0px;
+            margin-bottom: -1px;
+        }
+
+        .bubble .content {
+            text-align: left;
+        }
+
+        .bubble .content td, .bubble .content th {
+            width: 50%;
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .bubble .content td:first-child {
+            border-right: 1px solid rgb(214, 215, 216);
+        }
+
+        .bubble .content th {
+            font-size: 24px;
+        }
+
+        .bubble .content tr {
+            width: 100%;
+        }
+
+        .bubble .content table {
+            width: 100%;
+        }
+
+        .bubble .content p {
+            padding: 10px 10px 10px 0;
+            margin: 0 5px 0 10px;
+            border-bottom: 1px solid rgb(214, 215, 216);
+            color: rgb(128, 128, 128);
+            font-weight: 600;
+        }
+
+        .bubble .content p:hover {
+            background-color: rgb(214, 215, 216);
+        }
+
+        .bubble .content td p:last-child {
+            border-bottom: 0;
+        }
+
+        .bubble a, .bubble a:hover, .bubble a:active {
+        	text-decoration: none;
+        }
 
 	</style>
 </head>

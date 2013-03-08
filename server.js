@@ -9,6 +9,7 @@ app.configure(function() {
 	app.use(express.logger('dev'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
+	app.use(express.favicon(__dirname + '/public/icons/favicon.ico'));
 	app.use(express.session({ secret: 'cassa123'}));
 	app.use(app.router);
 	// app.use(function(error, req, res, next) {
