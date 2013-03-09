@@ -13,7 +13,6 @@ define([
         template: Handlebars.compile(tpl),
 
         initialize: function() {
-
             this.target = $('#input-subreddit');
             this.showHandler = this.show.bind(this);
             this.hideHandler = this.hide.bind(this);
@@ -54,6 +53,17 @@ define([
         },
 
         show: function() {
+
+            /**
+            Dont show the bubble when stealth
+            mode is activated. This is a workaround
+            for the fact that when a user clicks on a 
+            'recommended' link it will be saved in the 
+            browser history which is the thing the stealth
+            mode tries to avoid.
+            **/
+            if(Settings.get('stealth')) return;
+            
             this.update();
             this.place();
             this.$el.stop().fadeIn('fast');

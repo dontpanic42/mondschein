@@ -15,10 +15,8 @@ define(['jquery',
         defaults: {
             images: [],
             target: 'body',
-            border: 10,
             startWith: 0,
             margin: 10,
-            text: 'Image {n} of {N}',
             comments: 'reddit.com/r/comments',
             original: 'reddit.com/r/original',
             initWidth: 80,
@@ -55,16 +53,15 @@ define(['jquery',
                           this.elements.container.width() +
                           (this.options.margin * 2);
 
-            var self = this;
             this.overlay = new ViewerOverlay();
             this.controls = new ViewerControls({
                 el: self.$el,
-                comments: self.options.comments,
-                original: self.options.original
+                comments: this.options.comments,
+                original: this.options.original
             });
 
-            this.listenTo(this.overlay, 'mview:close', this.destroy, this);
-            this.listenTo(this.controls, 'mview:close', this.destroy, this);
+            this.listenTo(this.overlay, 'mview:close', this.onClose, this);
+            this.listenTo(this.controls, 'mview:close', this.onClose, this);
             this.listenTo(this.controls, 'mview:next', this.next, this);
             this.listenTo(this.controls, 'mview:prev', this.prev, this);
 
@@ -78,13 +75,17 @@ define(['jquery',
             this.load(this.options.startWith);
         },
 
-        destroy: function() {
+        onClose: function() {
+            this.stopListening();
             _.each(this.images, function(img) {
                 if(!img) return;
-                img.src = 
-                img.onload = 
-                img.onerror = null;
+                img.off().remove();
             });
+
+            this.resizeContainer(0, 0, this.destroy.bind(this));
+        },
+
+        destroy: function() {
 
             this.images = null;
 
@@ -139,7 +140,8 @@ define(['jquery',
                 .stop()
                 .animate(props, 'fast', callback);
             //if no callback is supplied, assume no animation
-            //is required (make transition instant).
+            //is required (make transition instant). 
+            //Used on window resize event
             } else {
                 this.elements.container
                 .stop()
@@ -165,33 +167,24 @@ define(['jquery',
                 return;
             }
 
-            this.images[num] = new Image();
-            this.images[num].onload = function() {
+            this.images[num] = 
+            $('<img />')
+            .on('load', function() {
                 callback(num, url);
-            };
-
-            this.images[num].onerror = function() {
+            })
+            .on('error', function() {
                 console.log('Viewer', 'Image load failed', url);
-            };
-
-            this.images[num].src = url;
+            })
+            .attr('src', url);
         },
 
         displayImage: function(num) {
             this.showSpinner(false);
-            var img = this.resizeImage(this.images[num]);
-            var $img = $(img);
-            $img.hide();
-            this.resizeContainer(img.width, img.height, function() {
+            var img = this.images[num].hide();
+            this.resizeImage(img[0]);
+            this.resizeContainer(img[0].width, img[0].height, function() {
                 this.elements.container.append(this.images[num]);
-                $img.fadeIn();
-                $img = null;
-                //this is to force redraw after finish.
-                //It prevents chrome from displaying some
-                //animation garbage...
-                var scroll = this.target.scrollTop();
-                this.target.scrollTop(scroll - 1);
-                this.target.scrollTop(scroll);
+                img.fadeIn();
             }.bind(this));
         },
 
