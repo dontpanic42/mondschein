@@ -85,8 +85,8 @@ define([], function() {
             },
 
             onChangeSubreddit: function(name) {
-                
                 if (this.currentApp) this.currentApp.remove();
+                Events.trigger('loading:stop');
 
                 this.currentApp = new App({
                     subreddit: name

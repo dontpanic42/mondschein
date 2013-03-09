@@ -23,6 +23,10 @@ define(['jquery',
             this.input = $('#input-subreddit');
             this.current = '';
             this.listenTo(Event, 'change:subreddit', this.onSubredditChanged);
+            this.listenTo(Event, 'loading:start', this.onStartLoading);
+            this.listenTo(Event, 'loading:stop', this.onEndLoading);
+
+            this.loadingQue = [];
 
             this.render();
         },
@@ -94,6 +98,28 @@ define(['jquery',
 
         onDisableStealth: function() {
             Settings.set('stealth', false);
+        },
+
+        showLoadingAnimation: function() {
+            if(!this.input.hasClass('loading'))
+                this.input.addClass('loading');
+        },
+
+        hideLoadingAnimation: function() {
+            this.input.removeClass('loading');
+        },
+
+        onStartLoading: function(mod) {
+            this.showLoadingAnimation();
+            if(mod) this.loadingQue.push(mod); 
+        },
+
+        onEndLoading: function(mod) {
+            if(!mod) this.loadingQue = [];
+
+            this.loadingQue = _.without(this.loadingQue, mod);
+            if(!this.loadingQue.length)
+                this.hideLoadingAnimation();
         }
 
     });

@@ -3,8 +3,9 @@ define(['jquery',
         'backbone',
         'collections/preview',
         'views/preview',
-        'views/bodymessage'],
-    function($, _, Backbone, Preview, PreviewView, Message) {
+        'views/bodymessage',
+        'utils/event'],
+    function($, _, Backbone, Preview, PreviewView, Message, Event) {
     'use strict';
     var exports = Backbone.View.extend({
 
@@ -37,6 +38,7 @@ define(['jquery',
 
         createPage: function() {
             this.disableAutoload();
+            Event.trigger('loading:start', this);
 
             console.log('loading', this.subreddit);
 
@@ -74,6 +76,7 @@ define(['jquery',
                 self.views.push(tmp);
             });
 
+            Event.trigger('loading:stop', this);
             this.enableAutoload();
             //after loading trigger the autoload handler
             //in case the browserwindow is bigger than the
@@ -83,6 +86,7 @@ define(['jquery',
 
         createPageFailed: function(collection, xhr) {
             console.log('Error loading page', arguments);
+            Event.trigger('loading:stop', this);
             var msg = (xhr.status in this.errorMessages)?
                         this.errorMessages[xhr.status]:
                         this.errorMessages[500] + '(' + xhr.status + ')';
