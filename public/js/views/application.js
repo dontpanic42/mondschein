@@ -28,6 +28,8 @@ define(['jquery',
             this.views = [];    //contains the individual previews
             this.pages = [];    //contains collection
             this.subreddit = options.subreddit;
+            this.$document = $(document);
+            this.$window = $(window);
 
             console.log('initializing', this.subreddit, this.pages.length);
             this.render();
@@ -123,8 +125,8 @@ define(['jquery',
         autoLoadHandler: function() {
             if(!this.autoload) return;
 
-            var offset = $(document).scrollTop() -
-                        ($(document).height() - $(window).height());
+            var offset = this.$document.scrollTop() -
+                        (this.$document.height() - this.$window.height());
             if (Math.abs(offset) < this.autoloadOffset) {
                 this.createPage();
             }

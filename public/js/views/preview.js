@@ -19,7 +19,9 @@ define(['backbone',
 
         render: function() {
             this.$el.html(this.template({
-                imageLink: this.getImageLink()
+                imageLink: this.getImageLink(),
+                hiddenClass: (this.model.get('gallery'))?
+                                '' : 'nodisplay'
             }));
 
             this.image = (this.model.get('gallery'))?
