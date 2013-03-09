@@ -131,10 +131,6 @@ define(['jquery',
         },
 
         remove: function() {
-            // if(this.message) {
-            //     this.message.remove();   
-            //     this.message = null;
-            // }
 
             this.message && this.message.remove();
 
