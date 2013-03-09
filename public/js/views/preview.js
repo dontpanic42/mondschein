@@ -20,41 +20,40 @@ define(['backbone',
 
         render: function() {
             this.$el.html(this.template(this));
-            var self = this;
 
-            if (this.model.get('gallery')) {
-                this.createAlbum();
-            } else {
+            this.image = (this.model.get('gallery'))?
+                this.createAlbum():
                 this.createImage();
-            }
         },
 
-        createAlbum: function() {      
-            var self = this;          
-            var img = new ImageAlbumPreview({
-                model: self.model,
-                el: self.$('.image-container').get(0)
+        createAlbum: function() {     
+            return new ImageAlbumPreview({
+                model: this.model,
+                el: this.$('.image-container').get(0)
             });
-
-            //this.$el.find('.image-icon').removeClass('hidden');
         },
 
         createImage: function() {
-            var self = this;
-            this.image = new ImageView({
-                image: self.model.get('thumb'),
-                el: self.$('.image-container').get(0)
+
+            var img = new ImageView({
+                image: this.model.get('thumb'),
+                el: this.$('.image-container').get(0)
             });
 
-            this.image.$el.on('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                var viewer = new Viewer({
-                    images: [self.model.get('image')],
-                    comments: self.model.get('comments'),
-                    original: self.model.get('link')
-                });
-            })
+            this.listenTo(img, 'click:image', this.onImageClick);
+
+            return img;
+        },
+
+        onImageClick: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var viewer = new Viewer({
+                images: [this.model.get('image')],
+                comments: this.model.get('comments'),
+                original: this.model.get('link')
+            });
         },
 
         getImageTitle: function() {
@@ -68,8 +67,10 @@ define(['backbone',
         },
 
         remove: function() {
-            if (this.image)
+            if (this.image) {
                 this.image.remove();
+            }
+
             Backbone.View.prototype.remove.call(this);
         }
 

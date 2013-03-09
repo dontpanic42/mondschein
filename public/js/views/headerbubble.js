@@ -32,10 +32,9 @@ define([
         },
 
         update: function() {
-            var self = this;
             this.$el.html(this.template({
-                recommended: self.getRecommendedSubreddits(),
-                recent: self.getRecentSubreddits()
+                recommended: this.getRecommendedSubreddits(),
+                recent: this.getRecentSubreddits()
             }));
         },
 

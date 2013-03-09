@@ -17,11 +17,13 @@ define(['jquery', 'underscore', 'backbone'],
 
             this.loadHandler = this.render.bind(this);
             this.errorHandler = this.renderError.bind(this);
+            this.clickHandler = this.onClick.bind(this);
 
             this.image = $('<img />');
             this.image.hide();
             this.image.on('load', this.loadHandler);
             this.image.on('error', this.errorHandler);
+            this.image.on('click', this.clickHandler);
             this.image.attr('src', this.options.image);
         },
 
@@ -75,10 +77,15 @@ define(['jquery', 'underscore', 'backbone'],
 
         },
 
+        onClick: function(e) {
+            this.trigger('click:image', e);
+        },
+
         remove: function() {
             this.unbind();
             this.image.off('load', this.loadHandler);
             this.image.off('error', this.errorHandler);
+            this.image.off('click', this.clickHandler);
             this.image.unbind().remove();
             Backbone.View.prototype.remove.call(this);
         }

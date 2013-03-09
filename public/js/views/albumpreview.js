@@ -22,29 +22,33 @@ define(['jquery',
         },
 
         render: function() {
-            var self = this;
             var link = this.album.first().get('thumb');
-            var img = new ImageView({
+            this.image = new ImageView({
                 image: link,
-                el: self.el
+                el: this.el
             });
 
-            img.$el.on('click', function(e) {
-                e.preventDefault();
+            this.listenTo(this.image, 'click:image', this.onImageClick);
+        },
 
-                var list = [];
-                this.album.each(function(image) {
-                    list.push(image.get('link'));
-                });
+        onImageClick: function(e) {
+            e.preventDefault();
 
-                var self = this;
-                var viewer = new Viewer({
-                    images: list,
-                    comments: self.model.get('comments'),
-                    original: self.model.get('link')                   
-                });
+            var list = [];
+            this.album.each(function(image) {
+                list.push(image.get('link'));
+            });
 
-            }.bind(this));
+            var viewer = new Viewer({
+                images: list,
+                comments: this.model.get('comments'),
+                original: this.model.get('link')                   
+            });
+        },
+
+        remove: function() {
+            this.image.remove();
+            Backbone.View.prototype.remove.call(this);
         }
     });
 
