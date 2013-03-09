@@ -55,7 +55,7 @@ define(['jquery',
 
             this.overlay = new ViewerOverlay();
             this.controls = new ViewerControls({
-                el: self.$el,
+                el: this.el,
                 comments: this.options.comments,
                 original: this.options.original
             });

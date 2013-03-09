@@ -28,7 +28,6 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
         },
 
         render: function() {
-            console.log(this.$el);
             this.$el.append(this.template({}));
             this.buttons = this.$('.mview-button');
 
@@ -109,7 +108,6 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
         },
 
         onKeyPress: function(e) {
-            console.log('keypress', e);
             switch(e.keyCode) {
                 case 37: this.onPrev(); e.preventDefault(); break;
                 case 39: this.onNext(); e.preventDefault(); break;
