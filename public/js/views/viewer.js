@@ -74,7 +74,6 @@ define(['jquery',
             this.resizeContainer(
                 this.options.initWidth, 
                 this.options.initHeight);
-            this.centerContainer();
 
             this.load(this.options.startWith);
         },
@@ -127,33 +126,24 @@ define(['jquery',
             this.controls.update(this.current, this.urls.length - 1);
         },
 
-        centerContainer: function() {
-            var self = this;
-            this.elements.container.css({
-                top: (self.maxHeight - this.elements.container.outerHeight()) / 2,
-                left: (self.maxWidth - this.elements.container.outerWidth()) / 2
-            });
-        },
-
         resizeContainer: function(width, height, callback) {
-            var self = this;
+            var props = {
+                width: width,
+                height: height,
+                top: (this.maxHeight - height) / 2,
+                left: (this.maxWidth - width) / 2
+            };
 
             if(callback) {
                 this.elements.container
-                .stop().animate({
-                    width: width,
-                    height: height
-                }, {
-                    step: self.centerContainer.bind(self),
-                    complete: callback
-                });
+                .stop()
+                .animate(props, 'fast', callback);
+            //if no callback is supplied, assume no animation
+            //is required (make transition instant).
             } else {
                 this.elements.container
-                .stop().css({
-                    width: width,
-                    height: height
-                });
-                this.centerContainer();
+                .stop()
+                .css(props);
             }
         },        
 

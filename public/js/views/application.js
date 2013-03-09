@@ -25,18 +25,16 @@ define(['jquery',
 
         initialize: function(options) {
             this.message = null;
-            this.views = [];
-            this.pages = [];
-            this.autoLoadHandlerInstance = null,
+            this.views = [];    //contains the individual previews
+            this.pages = [];    //contains collection
             this.subreddit = options.subreddit;
 
             console.log('initializing', this.subreddit, this.pages.length);
             this.render();
-            this.installAutoloadHandler();
         },
 
         createPage: function() {
-            this.autoload = false;
+            this.disableAutoload();
 
             console.log('loading', this.subreddit);
 
@@ -74,7 +72,7 @@ define(['jquery',
                 self.views.push(tmp);
             });
 
-            this.autoload = true;
+            this.enableAutoload();
             //after loading trigger the autoload handler
             //in case the browserwindow is bigger than the
             //loaded set.
@@ -85,7 +83,7 @@ define(['jquery',
             console.log('Error loading page', arguments);
             var msg = (xhr.status in this.errorMessages)?
                         this.errorMessages[xhr.status]:
-                        this.errorMessages[500];
+                        this.errorMessages[500] + '(' + xhr.status + ')';
 
             this.message = new Message({
                 message: msg
@@ -109,32 +107,41 @@ define(['jquery',
             this.createPage();
         },
 
-        installAutoloadHandler: function() {
-            this.autoLoadHandlerInstance = this.autoLoadHandler.bind(this);
-            $(document).bind('scroll', this.autoLoadHandlerInstance);
+        enableAutoload: function() {
+            this.autoload = true;
+
+            if(!this.autoLoadHandlerInstance) {
+                this.autoLoadHandlerInstance = this.autoLoadHandler.bind(this);
+                $(document).on('scroll', this.autoLoadHandlerInstance);
+            }
+        },
+
+        disableAutoload: function() {
+            this.autoload = false;
         },
 
         autoLoadHandler: function() {
+            if(!this.autoload) return;
+
             var offset = $(document).scrollTop() -
                         ($(document).height() - $(window).height());
-            if (Math.abs(offset) < this.autoloadOffset && this.autoload) {
+            if (Math.abs(offset) < this.autoloadOffset) {
                 this.createPage();
             }
         },
 
         remove: function() {
-            if(this.message) {
-                this.message.remove();   
-                this.message = null;
-            }
+            // if(this.message) {
+            //     this.message.remove();   
+            //     this.message = null;
+            // }
 
-            $(document).unbind('scroll', this.autoLoadHandlerInstance);
-            this.unbind();
+            this.message && this.message.remove();
+
+            $(document).off('scroll', this.autoLoadHandlerInstance);
             Backbone.View.prototype.remove.call(this);
 
-            _.each(this.views, function(view) {
-                view.remove();
-            });
+            _.invoke(this.views, 'remove');
 
             this.pages = null;
         }

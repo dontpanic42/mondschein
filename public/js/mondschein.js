@@ -5,7 +5,7 @@ define([], function() {
         paths: {
             jquery: 'libs/jquery/jquery',
             onoff: 'libs/jquery/jquery.onoff',
-            mview: 'libs/jquery/jquery.mview',
+            animate: 'libs/jquery/jquery.animate-enhanced.min',
             handlebars: 'libs/handlebars/handlebars',
             underscore: 'libs/underscore/underscore',
             backbone: 'libs/backbone/backbone',
@@ -30,11 +30,6 @@ define([], function() {
             'onoff': {
                 deps: ['jquery'],
                 exports: '$.fn.onoff'
-            },
-
-            'mview': {
-                deps: ['jquery'],
-                exports: '$.fn.mview'
             },
 
             'cookie': {
