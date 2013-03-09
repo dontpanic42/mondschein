@@ -41,7 +41,6 @@ define([
         place: function() {
             var tbound = this.target[0].getBoundingClientRect();
             var twidth = this.target.width();
-            var theight = this.target.height();
 
             var tcenter = tbound.left + (twidth / 2);
             var bleft = tcenter - (this.$el.width() / 2);
@@ -50,10 +49,8 @@ define([
 
             this.$el.css('left', bleft);
 
-            var triangle = this.$('.triangle');
-            var trileft = tcenter - bleft;
-            console.log('trileft', trileft);
-            triangle.css('left', trileft);
+            this.$('.triangle').css(
+                'left', tcenter - bleft);
         },
 
         show: function() {

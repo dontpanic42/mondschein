@@ -10,15 +10,12 @@ define(['jquery',
     var exports = Backbone.View.extend({
 
         initialize: function() {
-            this.album = null;
-
-            var self = this, album;
-            this.model.set('album', (this.album = album = new Album({
-                albumid: self.model.get('albumid')
+            this.model.set('album', (this.album = new Album({
+                albumid: this.model.get('albumid')
             })));
 
-            this.listenTo(album, 'reset', this.render);
-            album.fetch();
+            this.listenTo(this.album, 'reset', this.render);
+            this.album.fetch();
         },
 
         render: function() {
@@ -34,13 +31,8 @@ define(['jquery',
         onImageClick: function(e) {
             e.preventDefault();
 
-            var list = [];
-            this.album.each(function(image) {
-                list.push(image.get('link'));
-            });
-
-            var viewer = new Viewer({
-                images: list,
+            new Viewer({
+                images: this.album.pluck('link'),
                 comments: this.model.get('comments'),
                 original: this.model.get('link')                   
             });

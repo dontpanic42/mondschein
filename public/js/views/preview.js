@@ -14,12 +14,13 @@ define(['backbone',
         template: Handlebars.compile(Template),
 
         initialize: function(options) {
-            this.image = null;
             this.render();
         },
 
         render: function() {
-            this.$el.html(this.template(this));
+            this.$el.html(this.template({
+                imageLink: this.getImageLink()
+            }));
 
             this.image = (this.model.get('gallery'))?
                 this.createAlbum():
@@ -49,15 +50,11 @@ define(['backbone',
             e.preventDefault();
             e.stopPropagation();
 
-            var viewer = new Viewer({
+            new Viewer({
                 images: [this.model.get('image')],
                 comments: this.model.get('comments'),
                 original: this.model.get('link')
             });
-        },
-
-        getImageTitle: function() {
-            return this.model.get('title');
         },
 
         getImageLink: function() {
@@ -67,10 +64,7 @@ define(['backbone',
         },
 
         remove: function() {
-            if (this.image) {
-                this.image.remove();
-            }
-
+            this.image.remove();
             Backbone.View.prototype.remove.call(this);
         }
 

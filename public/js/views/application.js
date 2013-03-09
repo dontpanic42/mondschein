@@ -36,24 +36,21 @@ define(['jquery',
         },
 
         createPage: function() {
-            var self = this;
-
             this.autoload = false;
-            var after = this.getLatestEntry();
 
             console.log('loading', this.subreddit);
 
             var url = this.getUrl({
-                subreddit: self.subreddit,
-                after: after
+                subreddit: this.subreddit,
+                after: this.getLatestEntry()
             });
 
             var page;
             this.pages.push(page = new Preview());
             page.fetch({
                 url: url,
-                success: self.createPageFinished.bind(self),
-                error: self.createPageFailed.bind(self)
+                success: this.createPageFinished.bind(this),
+                error: this.createPageFailed.bind(this)
             });
         },
 

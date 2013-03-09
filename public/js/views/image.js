@@ -10,21 +10,19 @@ define(['jquery', 'underscore', 'backbone'],
             'img/notfound-red.png'
         ],
 
+        defaults: {
+            border: 0
+        },
+
         initialize: function(options) {
-            this.options = $.extend({
-                border: 0
-            }, options)
+            this.options = $.extend(this.defaults, options)
 
-            this.loadHandler = this.render.bind(this);
-            this.errorHandler = this.renderError.bind(this);
-            this.clickHandler = this.onClick.bind(this);
-
-            this.image = $('<img />');
-            this.image.hide();
-            this.image.on('load', this.loadHandler);
-            this.image.on('error', this.errorHandler);
-            this.image.on('click', this.clickHandler);
-            this.image.attr('src', this.options.image);
+            this.image = $('<img />')
+            .hide()
+            .on('load', this.render.bind(this))
+            .on('error', this.renderError.bind(this))
+            .on('click', this.onClick.bind(this))
+            .attr('src', this.options.image);
         },
 
         render: function() {
@@ -62,7 +60,6 @@ define(['jquery', 'underscore', 'backbone'],
 
         recenter: function() {
             var si = this.$el.height();
-            var sw = this.$el.width();
 
             var iw = this.image.get(0).width;
             var ih = this.image.get(0).height;
@@ -83,10 +80,7 @@ define(['jquery', 'underscore', 'backbone'],
 
         remove: function() {
             this.unbind();
-            this.image.off('load', this.loadHandler);
-            this.image.off('error', this.errorHandler);
-            this.image.off('click', this.clickHandler);
-            this.image.unbind().remove();
+            this.image.off().remove();
             Backbone.View.prototype.remove.call(this);
         }
     });
