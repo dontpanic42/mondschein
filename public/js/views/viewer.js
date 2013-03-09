@@ -93,6 +93,8 @@ define(['jquery',
             this.overlay.destroy();
 
             $(window).off('resize', this.resizeHandler);
+            this.$el.children().stop(true);
+            this.$el.children().remove();
 
             this.unbind();
             this.remove();
@@ -137,14 +139,14 @@ define(['jquery',
 
             if(callback) {
                 this.elements.container
-                .stop()
+                .stop(true)
                 .animate(props, 'fast', callback);
             //if no callback is supplied, assume no animation
             //is required (make transition instant). 
             //Used on window resize event
             } else {
                 this.elements.container
-                .stop()
+                .stop(true)
                 .css(props);
             }
         },        

@@ -38,7 +38,7 @@ define(['jquery',
 
         createPage: function() {
             this.disableAutoload();
-            Event.trigger('loading:start', this);
+            Event.trigger('loading:start', 'page');
 
             console.log('loading', this.subreddit);
 
@@ -76,7 +76,7 @@ define(['jquery',
                 self.views.push(tmp);
             });
 
-            Event.trigger('loading:stop', this);
+            Event.trigger('loading:stop', 'page');
             this.enableAutoload();
             //after loading trigger the autoload handler
             //in case the browserwindow is bigger than the
@@ -86,7 +86,7 @@ define(['jquery',
 
         createPageFailed: function(collection, xhr) {
             console.log('Error loading page', arguments);
-            Event.trigger('loading:stop', this);
+            Event.trigger('loading:stop', 'page');
             var msg = (xhr.status in this.errorMessages)?
                         this.errorMessages[xhr.status]:
                         this.errorMessages[500] + '(' + xhr.status + ')';
@@ -144,6 +144,7 @@ define(['jquery',
             Backbone.View.prototype.remove.call(this);
 
             _.invoke(this.views, 'remove');
+            this.views = null;
 
             this.pages = null;
         }
