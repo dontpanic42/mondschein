@@ -6,6 +6,7 @@ define(['jquery', 'backbone'], function($, Backbone) {
         defaults: {
             type: 'default',
             message: 'Some message',
+            type: null,
             closable: true
         },
 
@@ -19,7 +20,10 @@ define(['jquery', 'backbone'], function($, Backbone) {
         },
 
         render: function() {
-            this.$el.text(this.options.message);
+            if(typeof this.options.message == 'object')
+                this.$el.append(this.options.message);
+            else
+                this.$el.text(this.options.message);
 
             if(this.options.closable)
                 this.$el.append(
@@ -29,6 +33,9 @@ define(['jquery', 'backbone'], function($, Backbone) {
 
             $('body').append(this.$el);
 
+            if(this.options.type)
+                this.$el.addClass(this.options.type);
+            
             this.$el.removeClass('hidden');
         },
 

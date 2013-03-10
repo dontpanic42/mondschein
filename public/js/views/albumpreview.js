@@ -19,6 +19,10 @@ define(['jquery',
         },
 
         render: function() {
+            //if the request failed (i.e. the album is empty)
+            //do not render anything...
+            if(!this.album.length) return;
+
             var link = this.album.first().get('thumb');
             this.image = new ImageView({
                 image: link,
@@ -39,7 +43,7 @@ define(['jquery',
         },
 
         remove: function() {
-            this.image.remove();
+            this.image && this.image.remove();
             Backbone.View.prototype.remove.call(this);
         }
     });

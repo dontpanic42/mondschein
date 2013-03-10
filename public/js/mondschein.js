@@ -64,12 +64,17 @@ require(['jquery',
 
             var AppRouter = Backbone.Router.extend({
                 routes: {
+                    'sub/:subreddit/:after(/)' : 'subredditRouteAfter',
                     'sub/:subreddit(/)' : 'subredditRoute',
                     '*actions': 'defaultRoute'
                 },
 
                 defaultRoute: function() {
                     this.subredditRoute('pics');
+                },
+
+                subredditRouteAfter: function(subreddit, after) {
+                    Events.trigger('change:subreddit', subreddit, after);
                 },
 
                 subredditRoute: function(subreddit) {
@@ -83,12 +88,13 @@ require(['jquery',
             Backbone.history.start();
         },
 
-        onChangeSubreddit: function(name) {
+        onChangeSubreddit: function(name, after) {
             if (this.currentApp) this.currentApp.remove();
             Events.trigger('loading:stop');
 
             this.currentApp = new App({
-                subreddit: name
+                subreddit: name,
+                after: after
             });
     
             Settings.pushRecent(name);
@@ -97,7 +103,7 @@ require(['jquery',
 
             $('#input-subreddit').val(name);
             if(!Settings.get('stealth'))
-                this.router.navigate('sub/' + name);
+                this.router.navigate('sub/' + name + ((after)? '/' + after : ''));
         }
     });
 

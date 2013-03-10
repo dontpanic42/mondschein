@@ -15,6 +15,11 @@ define(['jquery',
         autoload: false,
         autoloadOffset: 600,
 
+        //How many images until 'show more'.
+        //400 is the border after which my
+        //ipad startet small signs of lag.
+        maxImages: 40,
+
         errorMessages: {
             501: 'The subreddit could not be found.',
             503: 'Could not connect to reddit - perhaps it\'s down?',
@@ -32,20 +37,28 @@ define(['jquery',
             this.$document = $(document);
             this.$window = $(window);
 
-            console.log('initializing', this.subreddit, this.pages.length);
-            this.render();
+            console.log('initializing', this.subreddit, this.pages.length, 'start', this.options.after);
+            this.render((options.after)? options.after : null);
         },
 
-        createPage: function() {
+        createPage: function(startWith) {
             this.disableAutoload();
-            Event.trigger('loading:start', 'page');
 
-            console.log('loading', this.subreddit);
+            var after = startWith || this.getLatestEntry();
+
+            //check if the maximal amount of images displayed
+            //is reached.
+            if(this.views.length > this.maxImages)
+                return this.showMoreMessage(after);
 
             var url = this.getUrl({
                 subreddit: this.subreddit,
-                after: this.getLatestEntry()
+                after: after
             });
+
+            Event.trigger('loading:start', 'page');
+
+            console.log('loading', this.subreddit, this.views.length);
 
             var page;
             this.pages.push(page = new Preview());
@@ -53,6 +66,18 @@ define(['jquery',
                 url: url,
                 success: this.createPageFinished.bind(this),
                 error: this.createPageFailed.bind(this)
+            });
+        },
+
+        showMoreMessage: function(after) {
+            var url = '#/sub/' + this.subreddit + '/' + after;
+            var htm = $('<a>Show more...</a>')
+            .attr('href', url);
+
+            console.log(htm.html());
+            this.message = new Message({
+                message : htm,
+                type: 'success'
             });
         },
 
@@ -109,8 +134,8 @@ define(['jquery',
             return url.replace(':subreddit', options.subreddit);
         },
 
-        render: function() {
-            this.createPage();
+        render: function(after) {
+            this.createPage(after);
         },
 
         enableAutoload: function() {
