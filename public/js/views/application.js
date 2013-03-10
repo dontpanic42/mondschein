@@ -18,7 +18,7 @@ define(['jquery',
         //How many images until 'show more'.
         //400 is the border after which my
         //ipad startet small signs of lag.
-        maxImages: 40,
+        maxImages: 350,
 
         errorMessages: {
             501: 'The subreddit could not be found.',
