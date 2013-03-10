@@ -72,7 +72,13 @@ define(['jquery',
         showMoreMessage: function(after) {
             var url = '#/sub/' + this.subreddit + '/' + after;
             var htm = $('<a>Show more...</a>')
-            .attr('href', url);
+            .attr('href', url)
+            .one('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                Event.trigger('change:subreddit', this.subreddit, after);
+            }.bind(this));
 
             console.log(htm.html());
             this.message = new Message({
