@@ -37,7 +37,6 @@ define(['jquery',
             this.$document = $(document);
             this.$window = $(window);
 
-            console.log('initializing', this.subreddit, this.pages.length, 'start', this.options.after);
             this.render((options.after)? options.after : null);
         },
 
