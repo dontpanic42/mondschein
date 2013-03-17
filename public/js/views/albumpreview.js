@@ -36,7 +36,7 @@ define(['jquery',
             e.preventDefault();
 
             new Viewer({
-                images: this.album.pluck('link'),
+                images: this.album.pluck('image'),
                 comments: this.model.get('comments'),
                 original: this.model.get('link')                   
             });

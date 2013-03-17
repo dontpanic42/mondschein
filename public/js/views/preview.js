@@ -4,7 +4,12 @@ define(['backbone',
     'views/albumpreview',
     'text!templates/preview.html',
     'views/viewer'],
-    function(Backbone, Handlebars, ImageView, ImageAlbumPreview, Template, Viewer) {
+    function(Backbone, 
+             Handlebars, 
+             ImageView, 
+             ImageAlbumPreview, 
+             Template, 
+             Viewer) {
     'use strict';
 
     var exports = Backbone.View.extend({
@@ -20,16 +25,16 @@ define(['backbone',
         render: function() {
             this.$el.html(this.template({
                 imageLink: this.getImageLink(),
-                hiddenClass: (this.model.get('gallery'))?
+                hiddenClass: (this.model.get('gallery')) ?
                                 '' : 'nodisplay'
             }));
 
-            this.image = (this.model.get('gallery'))?
-                this.createAlbum():
+            this.image = (this.model.get('gallery')) ?
+                this.createAlbum() :
                 this.createImage();
         },
 
-        createAlbum: function() {     
+        createAlbum: function() {
             return new ImageAlbumPreview({
                 model: this.model,
                 el: this.$('.image-container').get(0)

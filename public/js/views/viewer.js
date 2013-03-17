@@ -1,10 +1,10 @@
-define(['jquery', 
-        'underscore', 
-        'backbone', 
-        'handlebars', 
+define(['jquery',
+        'underscore',
+        'backbone',
+        'handlebars',
         'views/viewercontrols',
         'views/vieweroverlay',
-        'text!templates/viewer.html'], 
+        'text!templates/viewer.html'],
     function($, _, Backbone, Handlebars, ViewerControls, ViewerOverlay, tpl) {
     'use strict';
     var exp = Backbone.View.extend({
@@ -30,6 +30,9 @@ define(['jquery',
 
             this.options = $.extend(this.defaults, options);
             this.urls = this.options.images;
+
+            console.log(this.urls);
+
             this.target = $('body');
 
             this.images = [];
@@ -49,7 +52,7 @@ define(['jquery',
             this.elements = {};
             this.elements.container = this.$('.mview-container');
 
-            this.border = this.elements.container.outerWidth() - 
+            this.border = this.elements.container.outerWidth() -
                           this.elements.container.width() +
                           (this.options.margin * 2);
 
@@ -69,7 +72,7 @@ define(['jquery',
             $(window).on('resize', this.resizeHandler);
 
             this.resizeContainer(
-                this.options.initWidth, 
+                this.options.initWidth,
                 this.options.initHeight);
 
             this.load(this.options.startWith);
@@ -78,7 +81,7 @@ define(['jquery',
         onClose: function() {
             this.stopListening();
             _.each(this.images, function(img) {
-                if(!img) return;
+                if (!img) return;
                 img.off().remove();
             });
 
@@ -101,12 +104,12 @@ define(['jquery',
         },
 
         next: function() {
-            if(this.hasNext())
+            if (this.hasNext())
                 this.load(++this.current);
         },
 
         prev: function() {
-            if(this.hasPrev())
+            if (this.hasPrev())
                 this.load(--this.current);
         },
 
@@ -137,19 +140,19 @@ define(['jquery',
                 left: (this.maxWidth - width) / 2
             };
 
-            if(callback) {
+            if (callback) {
                 this.elements.container
                 .stop(true)
                 .animate(props, 'fast', callback);
             //if no callback is supplied, assume no animation
-            //is required (make transition instant). 
+            //is required (make transition instant).
             //Used on window resize event
             } else {
                 this.elements.container
                 .stop(true)
                 .css(props);
             }
-        },        
+        },
 
         clearContainer: function() {
             this.elements.container.children().remove();
@@ -157,19 +160,19 @@ define(['jquery',
 
         showSpinner: function(value) {
             var el = this.elements.container;
-            if(value)
+            if (value)
                 el.addClass('mview-spinner');
             else
                 el.removeClass('mview-spinner');
         },
 
         loadImage: function(num, url, callback) {
-            if(num in this.images) {
+            if (num in this.images) {
                 callback(num, url);
                 return;
             }
 
-            this.images[num] = 
+            this.images[num] =
             $('<img />')
             .on('load', function() {
                 callback(num, url);
@@ -194,9 +197,9 @@ define(['jquery',
             var facw = (this.maxWidth - this.border) / img.width;
             var fach = (this.maxHeight - this.border) / img.height;
 
-            if(facw >= 1 && fach >= 1) return img;
+            if (facw >= 1 && fach >= 1) return img;
 
-            if(facw < fach) {
+            if (facw < fach) {
                 img.width *= facw;
                 img.height *= facw;
             } else {

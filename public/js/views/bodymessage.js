@@ -40,12 +40,9 @@ define(['jquery', 'backbone'], function($, Backbone) {
         },
 
         onClose: function() {
-            this.$el.addClass('hidden');
-        },
-
-        remove: function() {
-            Backbone.View.prototype.remove.call(this);
-            this.unbind();
+            this.$el.fadeOut('fast', function() {
+                this.remove();
+            }.bind(this))
         }
     });
 

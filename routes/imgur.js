@@ -74,6 +74,15 @@ function createThumbnailLink(link) {
 	return linkpre + 'm' + suffix;
 }
 
+function createViewerLink(link) {
+	var suffixi = link.lastIndexOf('.');
+	if(suffixi == -1) return 'img/unknown.gif';
+
+	var linkpre = link.substring(0, suffixi);
+	var suffix  = link.substring(suffixi);
+	return linkpre + 'l' + suffix;
+}
+
 /**
  Returns: 
 
@@ -133,6 +142,7 @@ exports.getAlbumImages = function(albumId, callback) {
 		if(ar.length) {
 			for(var i = 0; i < ar.length; i++) {
 				ar[i].thumb = createThumbnailLink(ar[i].link);
+				ar[i].image = createViewerLink(ar[i].link);
 			}
 		}
 

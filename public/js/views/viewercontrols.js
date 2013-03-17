@@ -53,9 +53,6 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
 
             this.$window.off('resize', this.resizeHandler);
             this.target.off('keyup', this.keypressHandler);
-
-            this.unbind();
-            this.remove();
         },
 
         isTouchDevice: function() {
