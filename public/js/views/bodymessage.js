@@ -20,12 +20,12 @@ define(['jquery', 'backbone'], function($, Backbone) {
         },
 
         render: function() {
-            if(typeof this.options.message == 'object')
+            if (typeof this.options.message == 'object')
                 this.$el.append(this.options.message);
             else
                 this.$el.text(this.options.message);
 
-            if(this.options.closable)
+            if (this.options.closable)
                 this.$el.append(
                     $('<div />')
                     .addClass('close')
@@ -33,16 +33,16 @@ define(['jquery', 'backbone'], function($, Backbone) {
 
             $('body').append(this.$el);
 
-            if(this.options.type)
+            if (this.options.type)
                 this.$el.addClass(this.options.type);
-            
+
             this.$el.removeClass('hidden');
         },
 
         onClose: function() {
             this.$el.fadeOut('fast', function() {
                 this.remove();
-            }.bind(this))
+            }.bind(this));
         }
     });
 

@@ -37,7 +37,7 @@ define(['jquery',
             this.$document = $(document);
             this.$window = $(window);
 
-            this.render((options.after)? options.after : null);
+            this.render((options.after) ? options.after : null);
         },
 
         createPage: function(startWith) {
@@ -47,7 +47,7 @@ define(['jquery',
 
             //check if the maximal amount of images displayed
             //is reached.
-            if(this.views.length > this.maxImages)
+            if (this.views.length > this.maxImages)
                 return this.showMoreMessage(after);
 
             var url = this.getUrl({
@@ -84,7 +84,7 @@ define(['jquery',
 
             console.log(htm.html());
             this.message = new Message({
-                message : htm,
+                message: htm,
                 type: 'success'
             });
         },
@@ -120,8 +120,8 @@ define(['jquery',
         createPageFailed: function(collection, xhr) {
             console.log('Error loading page', arguments);
             Event.trigger('loading:stop', 'page');
-            var msg = (xhr.status in this.errorMessages)?
-                        this.errorMessages[xhr.status]:
+            var msg = (xhr.status in this.errorMessages) ?
+                        this.errorMessages[xhr.status] :
                         this.errorMessages[500] + '(' + xhr.status + ')';
 
             this.message = new Message({
@@ -149,7 +149,7 @@ define(['jquery',
         enableAutoload: function() {
             this.autoload = true;
 
-            if(!this.autoLoadHandlerInstance) {
+            if (!this.autoLoadHandlerInstance) {
                 this.autoLoadHandlerInstance = this.autoLoadHandler.bind(this);
                 $(document).on('scroll', this.autoLoadHandlerInstance);
             }
@@ -160,7 +160,7 @@ define(['jquery',
         },
 
         autoLoadHandler: function() {
-            if(!this.autoload) return;
+            if (!this.autoload) return;
 
             var offset = this.$document.scrollTop() -
                         (this.$document.height() - this.$window.height());

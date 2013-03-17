@@ -15,7 +15,7 @@ define(['jquery', 'underscore', 'backbone'],
         },
 
         initialize: function(options) {
-            this.options = $.extend(this.defaults, options)
+            this.options = $.extend(this.defaults, options);
 
             this.image = $('<img />')
             .hide()
@@ -50,8 +50,8 @@ define(['jquery', 'underscore', 'backbone'],
             if (iw < si && ih < si) return;
 
             var fac = (iw > ih) ?
-                        si / ih  :
-                        si / iw  ;
+                        si / ih :
+                        si / iw;
 
             this.image.get(0).width = iw * fac;
             this.image.get(0).height = ih * fac;
@@ -65,7 +65,7 @@ define(['jquery', 'underscore', 'backbone'],
             var ih = this.image.get(0).height;
 
 
-            if(iw < si && ih < si) return;
+            if (iw < si && ih < si) return;
 
             this.image.css({
                 top: -((ih - si) / 2),

@@ -44,7 +44,7 @@ define([
             var tcenter = tbound.left + (twidth / 2);
             var bleft = tcenter - (this.$el.width() / 2);
 
-            if(bleft < 0) bleft = 0;
+            if (bleft < 0) bleft = 0;
 
             this.$el.css('left', bleft);
 
@@ -57,13 +57,13 @@ define([
             /**
             Dont show the bubble when stealth
             mode is activated. This is a workaround
-            for the fact that when a user clicks on a 
-            'recommended' link it will be saved in the 
+            for the fact that when a user clicks on a
+            'recommended' link it will be saved in the
             browser history which is the thing the stealth
             mode tries to avoid.
             **/
-            if(Settings.get('stealth')) return;
-            
+            if (Settings.get('stealth')) return;
+
             this.update();
             this.place();
             this.$el.stop().fadeIn('fast');

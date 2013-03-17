@@ -1,4 +1,7 @@
-define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'], 
+define(['jquery', 
+        'backbone', 
+        'handlebars', 
+        'text!templates/viewercontrols.html'],
     function($, Backbone, Handlebars, tpl) {
     'use strict';
     var exp = Backbone.View.extend({
@@ -31,11 +34,12 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
             this.$el.append(this.template({}));
             this.buttons = this.$('.mview-button');
 
-            if(!this.isTouchDevice()) {
+            if (!this.isTouchDevice()) {
                 this.fader = null;
                 this.fadeInHandler = this.onFadeIn.bind(this);
                 this.fadeOutHandler = this.onFadeOut.bind(this);
-                this.fadeable = this.$('.mview-button, .mview-buttonbar, .mview-close');
+                this.fadeable = 
+                    this.$('.mview-button, .mview-buttonbar, .mview-close');
                 this.target.on('mousemove', this.fadeInHandler);
             }
 
@@ -46,9 +50,9 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
         },
 
         destroy: function() {
-            if(!this.isTouchDevice())
+            if (!this.isTouchDevice())
                 this.target.off('mousemove', this.fadeInHandler);
-            if(this.fader)
+            if (this.fader)
                 clearTimeout(this.fader);
 
             this.$window.off('resize', this.resizeHandler);
@@ -60,7 +64,8 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
         },
 
         vcenterButtons: function() {
-            var top = (this.$window.height() - this.buttons.first().outerHeight()) / 2;
+            var top = (this.$window.height() - 
+                        this.buttons.first().outerHeight()) / 2;
             this.buttons.css('top', top);
         },
 
@@ -69,14 +74,14 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
             var n = this.$('.mview-next');
             var p = this.$('.mview-prev');
 
-            if(cur >= max && !n.hasClass('mview-hidden'))
+            if (cur >= max && !n.hasClass('mview-hidden'))
                 n.addClass('mview-hidden');
-            else if(cur < max && n.hasClass('mview-hidden'))
+            else if (cur < max && n.hasClass('mview-hidden'))
                 n.removeClass('mview-hidden');
 
-            if(cur <= 0 && !p.hasClass('mview-hidden'))
+            if (cur <= 0 && !p.hasClass('mview-hidden'))
                 p.addClass('mview-hidden');
-            else if(cur > 0 && p.hasClass('mview-hidden'))
+            else if (cur > 0 && p.hasClass('mview-hidden'))
                 p.removeClass('mview-hidden');
 
             //update image number
@@ -90,27 +95,27 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
         },
 
         onFadeOut: function() {
-            if(!this.fadeable.hasClass('mview-fadeout'))
+            if (!this.fadeable.hasClass('mview-fadeout'))
                 this.fadeable.addClass('mview-fadeout');
         },
 
         onFadeIn: function() {
-            if(this.fader)
+            if (this.fader)
                 clearTimeout(this.fader);
 
-            if(this.fadeable.hasClass('mview-fadeout'))
+            if (this.fadeable.hasClass('mview-fadeout'))
                 this.fadeable.removeClass('mview-fadeout');
 
             this.fader = setTimeout(this.fadeOutHandler, 2000);
         },
 
         onKeyPress: function(e) {
-            switch(e.keyCode) {
+            switch (e.keyCode) {
                 case 37: this.onPrev(); e.preventDefault(); break;
                 case 39: this.onNext(); e.preventDefault(); break;
                 case 27: this.onClose(); e.preventDefault(); break;
                 default: break;
-            }        
+            }
         },
 
         onWindowResize: function() {
@@ -132,4 +137,4 @@ define(['jquery', 'backbone', 'handlebars', 'text!templates/viewercontrols.html'
     });
 
     return exp;
-})
+});

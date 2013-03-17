@@ -21,7 +21,7 @@ define(['jquery',
         render: function() {
             //if the request failed (i.e. the album is empty)
             //do not render anything...
-            if(!this.album.length) return;
+            if (!this.album.length) return;
 
             var link = this.album.first().get('thumb');
             this.image = new ImageView({
@@ -38,7 +38,7 @@ define(['jquery',
             new Viewer({
                 images: this.album.pluck('image'),
                 comments: this.model.get('comments'),
-                original: this.model.get('link')                   
+                original: this.model.get('link')
             });
         },
 

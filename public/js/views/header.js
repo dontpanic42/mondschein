@@ -1,9 +1,9 @@
-define(['jquery', 
-        'backbone', 
-        'utils/event', 
+define(['jquery',
+        'backbone',
+        'utils/event',
         'models/settings',
         'views/headerbubble',
-        'onoff'], 
+        'onoff'],
     function($, Backbone, Event, Settings, HeaderBubble, IgnoreMe) {
     'use strict';
 
@@ -33,7 +33,7 @@ define(['jquery',
 
         render: function() {
             this.$('#stealth-mode')
-            .onoff({init: (Settings.get('stealth'))? 'on' : 'off'});
+            .onoff({init: (Settings.get('stealth')) ? 'on' : 'off'});
 
             this.bubble = new HeaderBubble();
         },
@@ -65,7 +65,7 @@ define(['jquery',
         },
 
         onSubredditKeyup: function(e) {
-            switch(e.keyCode) {
+            switch (e.keyCode) {
                 case 13:
                     this.requestSubredditChange(this.getSubredditInput());
                     this.input.blur();
@@ -87,8 +87,8 @@ define(['jquery',
         },
 
         onBodyKeyup: function(e) {
-            if(e.keyCode != 76) return;
-            if(this.input.is(':focus')) return;
+            if (e.keyCode != 76) return;
+            if (this.input.is(':focus')) return;
             this.input.focus();
         },
 
@@ -101,7 +101,7 @@ define(['jquery',
         },
 
         showLoadingAnimation: function() {
-            if(!this.input.hasClass('loading'))
+            if (!this.input.hasClass('loading'))
                 this.input.addClass('loading');
         },
 
@@ -111,14 +111,14 @@ define(['jquery',
 
         onStartLoading: function(mod) {
             this.showLoadingAnimation();
-            if(mod) this.loadingQue.push(mod); 
+            if (mod) this.loadingQue.push(mod);
         },
 
         onEndLoading: function(mod) {
-            if(!mod) this.loadingQue = [];
+            if (!mod) this.loadingQue = [];
 
             this.loadingQue = _.without(this.loadingQue, mod);
-            if(!this.loadingQue.length)
+            if (!this.loadingQue.length)
                 this.hideLoadingAnimation();
         }
 
