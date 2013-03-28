@@ -101,13 +101,16 @@ define(['jquery',
 
         createPageFinished: function() {
             var tmp, self = this;
+            var frag = document.createDocumentFragment();
             _.last(this.pages).each(function(image) {
                 tmp = new PreviewView({
                     model: image
                 });
-                self.$el.append(tmp.el);
+                $(frag).append(tmp.el);
                 self.views.push(tmp);
             });
+
+            this.$el.append(frag);
 
             Event.trigger('loading:stop', 'page');
             this.enableAutoload();

@@ -1,6 +1,6 @@
-define(['jquery', 
-        'backbone', 
-        'handlebars', 
+define(['jquery',
+        'backbone',
+        'handlebars',
         'text!templates/viewercontrols.html'],
     function($, Backbone, Handlebars, tpl) {
     'use strict';
@@ -38,7 +38,7 @@ define(['jquery',
                 this.fader = null;
                 this.fadeInHandler = this.onFadeIn.bind(this);
                 this.fadeOutHandler = this.onFadeOut.bind(this);
-                this.fadeable = 
+                this.fadeable =
                     this.$('.mview-button, .mview-buttonbar, .mview-close');
                 this.target.on('mousemove', this.fadeInHandler);
             }
@@ -64,7 +64,7 @@ define(['jquery',
         },
 
         vcenterButtons: function() {
-            var top = (this.$window.height() - 
+            var top = (this.$window.height() -
                         this.buttons.first().outerHeight()) / 2;
             this.buttons.css('top', top);
         },
